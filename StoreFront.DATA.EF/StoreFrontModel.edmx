@@ -1,0 +1,1137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StoreFrontModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Actors">
+          <Key>
+            <PropertyRef Name="ActorID" />
+          </Key>
+          <Property Name="ActorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Directors">
+          <Key>
+            <PropertyRef Name="DirectorID" />
+          </Key>
+          <Property Name="DirectorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DiscTypes">
+          <Key>
+            <PropertyRef Name="DiscTypeID" />
+          </Key>
+          <Property Name="DiscTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DiscType" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MoviesTV">
+          <Key>
+            <PropertyRef Name="MovieTVID" />
+          </Key>
+          <Property Name="MovieTVID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DiscTypeID" Type="int" Nullable="false" />
+          <Property Name="RegionID" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="UPC" Type="char" MaxLength="12" />
+          <Property Name="TitleTypeID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="GenreID" Type="int" />
+          <Property Name="Runtime" Type="int" />
+          <Property Name="Price" Type="money" />
+          <Property Name="UnitsSold" Type="int" />
+          <Property Name="ReleaseDate" Type="date" />
+          <Property Name="StudioID" Type="int" Nullable="false" />
+          <Property Name="TitleImage" Type="varchar" MaxLength="100" />
+          <Property Name="IsSiteFeature" Type="bit" Nullable="false" />
+          <Property Name="IsGenreFeature" Type="bit" Nullable="false" />
+          <Property Name="TitleStatusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieTVActors">
+          <Key>
+            <PropertyRef Name="MovieTVActorID" />
+          </Key>
+          <Property Name="MovieTVActorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieTVID" Type="int" Nullable="false" />
+          <Property Name="ActorID" Type="int" Nullable="false" />
+          <Property Name="ActorOrder" Type="tinyint" />
+          <Property Name="Character" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieTVDirectors">
+          <Key>
+            <PropertyRef Name="MovieTVDirectorID" />
+          </Key>
+          <Property Name="MovieTVDirectorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieTVID" Type="int" Nullable="false" />
+          <Property Name="DirectorID" Type="int" Nullable="false" />
+          <Property Name="DirectorOrder" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="MovieTVWriters">
+          <Key>
+            <PropertyRef Name="MovieTVWriterID" />
+          </Key>
+          <Property Name="MovieTVWriterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieTVID" Type="int" Nullable="false" />
+          <Property Name="WriterID" Type="int" Nullable="false" />
+          <Property Name="WriterOrder" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Regions">
+          <Key>
+            <PropertyRef Name="RegionID" />
+          </Key>
+          <Property Name="RegionID" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Studios">
+          <Key>
+            <PropertyRef Name="StudioID" />
+          </Key>
+          <Property Name="StudioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudioName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TitleStatuses">
+          <Key>
+            <PropertyRef Name="TitleStatusID" />
+          </Key>
+          <Property Name="TitleStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TitleStatusName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Notes" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TitleTypes">
+          <Key>
+            <PropertyRef Name="TitleTypeID" />
+          </Key>
+          <Property Name="TitleTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TitleType" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Writers">
+          <Key>
+            <PropertyRef Name="WriterID" />
+          </Key>
+          <Property Name="WriterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_DiscTypes">
+          <End Role="DiscTypes" Type="Self.DiscTypes" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiscTypes">
+              <PropertyRef Name="DiscTypeID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="DiscTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_Genres">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="0..1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="GenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_Regions1">
+          <End Role="Regions" Type="Self.Regions" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Regions">
+              <PropertyRef Name="RegionID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_Studios">
+          <End Role="Studios" Type="Self.Studios" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studios">
+              <PropertyRef Name="StudioID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="StudioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_TitleStatuses">
+          <End Role="TitleStatuses" Type="Self.TitleStatuses" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TitleStatuses">
+              <PropertyRef Name="TitleStatusID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="TitleStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_TitleTypes">
+          <End Role="TitleTypes" Type="Self.TitleTypes" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TitleTypes">
+              <PropertyRef Name="TitleTypeID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="TitleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVActors_Actors">
+          <End Role="Actors" Type="Self.Actors" Multiplicity="1" />
+          <End Role="MovieTVActors" Type="Self.MovieTVActors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actors">
+              <PropertyRef Name="ActorID" />
+            </Principal>
+            <Dependent Role="MovieTVActors">
+              <PropertyRef Name="ActorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVActors_MoviesTV">
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="1" />
+          <End Role="MovieTVActors" Type="Self.MovieTVActors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesTV">
+              <PropertyRef Name="MovieTVID" />
+            </Principal>
+            <Dependent Role="MovieTVActors">
+              <PropertyRef Name="MovieTVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVDirectors_Directors">
+          <End Role="Directors" Type="Self.Directors" Multiplicity="1" />
+          <End Role="MovieTVDirectors" Type="Self.MovieTVDirectors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Directors">
+              <PropertyRef Name="DirectorID" />
+            </Principal>
+            <Dependent Role="MovieTVDirectors">
+              <PropertyRef Name="DirectorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVDirectors_MoviesTV">
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="1" />
+          <End Role="MovieTVDirectors" Type="Self.MovieTVDirectors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesTV">
+              <PropertyRef Name="MovieTVID" />
+            </Principal>
+            <Dependent Role="MovieTVDirectors">
+              <PropertyRef Name="MovieTVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVWriters_MoviesTV">
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="1" />
+          <End Role="MovieTVWriters" Type="Self.MovieTVWriters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesTV">
+              <PropertyRef Name="MovieTVID" />
+            </Principal>
+            <Dependent Role="MovieTVWriters">
+              <PropertyRef Name="MovieTVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVWriters_Writers">
+          <End Role="Writers" Type="Self.Writers" Multiplicity="1" />
+          <End Role="MovieTVWriters" Type="Self.MovieTVWriters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Writers">
+              <PropertyRef Name="WriterID" />
+            </Principal>
+            <Dependent Role="MovieTVWriters">
+              <PropertyRef Name="WriterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoreFrontModelStoreContainer">
+          <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Directors" EntityType="Self.Directors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiscTypes" EntityType="Self.DiscTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MoviesTV" EntityType="Self.MoviesTV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieTVActors" EntityType="Self.MovieTVActors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieTVDirectors" EntityType="Self.MovieTVDirectors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieTVWriters" EntityType="Self.MovieTVWriters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Regions" EntityType="Self.Regions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Studios" EntityType="Self.Studios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TitleStatuses" EntityType="Self.TitleStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TitleTypes" EntityType="Self.TitleTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Writers" EntityType="Self.Writers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_DiscTypes" Association="Self.FK_MoviesTV_DiscTypes">
+            <End Role="DiscTypes" EntitySet="DiscTypes" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_Genres" Association="Self.FK_MoviesTV_Genres">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_Regions1" Association="Self.FK_MoviesTV_Regions1">
+            <End Role="Regions" EntitySet="Regions" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_Studios" Association="Self.FK_MoviesTV_Studios">
+            <End Role="Studios" EntitySet="Studios" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_TitleStatuses" Association="Self.FK_MoviesTV_TitleStatuses">
+            <End Role="TitleStatuses" EntitySet="TitleStatuses" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_TitleTypes" Association="Self.FK_MoviesTV_TitleTypes">
+            <End Role="TitleTypes" EntitySet="TitleTypes" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVActors_Actors" Association="Self.FK_MovieTVActors_Actors">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="MovieTVActors" EntitySet="MovieTVActors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVActors_MoviesTV" Association="Self.FK_MovieTVActors_MoviesTV">
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+            <End Role="MovieTVActors" EntitySet="MovieTVActors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVDirectors_Directors" Association="Self.FK_MovieTVDirectors_Directors">
+            <End Role="Directors" EntitySet="Directors" />
+            <End Role="MovieTVDirectors" EntitySet="MovieTVDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVDirectors_MoviesTV" Association="Self.FK_MovieTVDirectors_MoviesTV">
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+            <End Role="MovieTVDirectors" EntitySet="MovieTVDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVWriters_MoviesTV" Association="Self.FK_MovieTVWriters_MoviesTV">
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+            <End Role="MovieTVWriters" EntitySet="MovieTVWriters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVWriters_Writers" Association="Self.FK_MovieTVWriters_Writers">
+            <End Role="Writers" EntitySet="Writers" />
+            <End Role="MovieTVWriters" EntitySet="MovieTVWriters" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StoreFrontModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="ActorID" />
+          </Key>
+          <Property Name="ActorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MovieTVActors" Relationship="Self.FK_MovieTVActors_Actors" FromRole="Actors" ToRole="MovieTVActors" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Director">
+          <Key>
+            <PropertyRef Name="DirectorID" />
+          </Key>
+          <Property Name="DirectorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MovieTVDirectors" Relationship="Self.FK_MovieTVDirectors_Directors" FromRole="Directors" ToRole="MovieTVDirectors" />
+        </EntityType>
+        <EntityType Name="DiscType">
+          <Key>
+            <PropertyRef Name="DiscTypeID" />
+          </Key>
+          <Property Name="DiscTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiscType1" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="Self.FK_MoviesTV_DiscTypes" FromRole="DiscTypes" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GenreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="Self.FK_MoviesTV_Genres" FromRole="Genres" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="MoviesTV">
+          <Key>
+            <PropertyRef Name="MovieTVID" />
+          </Key>
+          <Property Name="MovieTVID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiscTypeID" Type="Int32" Nullable="false" />
+          <Property Name="RegionID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="UPC" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="TitleTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GenreID" Type="Int32" />
+          <Property Name="Runtime" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="UnitsSold" Type="Int32" />
+          <Property Name="ReleaseDate" Type="DateTime" Precision="0" />
+          <Property Name="StudioID" Type="Int32" Nullable="false" />
+          <Property Name="TitleImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsSiteFeature" Type="Boolean" Nullable="false" />
+          <Property Name="IsGenreFeature" Type="Boolean" Nullable="false" />
+          <Property Name="TitleStatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DiscType" Relationship="Self.FK_MoviesTV_DiscTypes" FromRole="MoviesTV" ToRole="DiscTypes" />
+          <NavigationProperty Name="Genre" Relationship="Self.FK_MoviesTV_Genres" FromRole="MoviesTV" ToRole="Genres" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_MoviesTV_Regions1" FromRole="MoviesTV" ToRole="Regions" />
+          <NavigationProperty Name="Studio" Relationship="Self.FK_MoviesTV_Studios" FromRole="MoviesTV" ToRole="Studios" />
+          <NavigationProperty Name="TitleStatus" Relationship="Self.FK_MoviesTV_TitleStatuses" FromRole="MoviesTV" ToRole="TitleStatuses" />
+          <NavigationProperty Name="TitleType" Relationship="Self.FK_MoviesTV_TitleTypes" FromRole="MoviesTV" ToRole="TitleTypes" />
+          <NavigationProperty Name="MovieTVActors" Relationship="Self.FK_MovieTVActors_MoviesTV" FromRole="MoviesTV" ToRole="MovieTVActors" />
+          <NavigationProperty Name="MovieTVDirectors" Relationship="Self.FK_MovieTVDirectors_MoviesTV" FromRole="MoviesTV" ToRole="MovieTVDirectors" />
+          <NavigationProperty Name="MovieTVWriters" Relationship="Self.FK_MovieTVWriters_MoviesTV" FromRole="MoviesTV" ToRole="MovieTVWriters" />
+        </EntityType>
+        <EntityType Name="MovieTVActor">
+          <Key>
+            <PropertyRef Name="MovieTVActorID" />
+          </Key>
+          <Property Name="MovieTVActorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieTVID" Type="Int32" Nullable="false" />
+          <Property Name="ActorID" Type="Int32" Nullable="false" />
+          <Property Name="ActorOrder" Type="Byte" />
+          <Property Name="Character" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Actor" Relationship="Self.FK_MovieTVActors_Actors" FromRole="MovieTVActors" ToRole="Actors" />
+          <NavigationProperty Name="MoviesTV" Relationship="Self.FK_MovieTVActors_MoviesTV" FromRole="MovieTVActors" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="MovieTVDirector">
+          <Key>
+            <PropertyRef Name="MovieTVDirectorID" />
+          </Key>
+          <Property Name="MovieTVDirectorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieTVID" Type="Int32" Nullable="false" />
+          <Property Name="DirectorID" Type="Int32" Nullable="false" />
+          <Property Name="DirectorOrder" Type="Byte" />
+          <NavigationProperty Name="Director" Relationship="Self.FK_MovieTVDirectors_Directors" FromRole="MovieTVDirectors" ToRole="Directors" />
+          <NavigationProperty Name="MoviesTV" Relationship="Self.FK_MovieTVDirectors_MoviesTV" FromRole="MovieTVDirectors" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="MovieTVWriter">
+          <Key>
+            <PropertyRef Name="MovieTVWriterID" />
+          </Key>
+          <Property Name="MovieTVWriterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieTVID" Type="Int32" Nullable="false" />
+          <Property Name="WriterID" Type="Int32" Nullable="false" />
+          <Property Name="WriterOrder" Type="Byte" />
+          <NavigationProperty Name="MoviesTV" Relationship="Self.FK_MovieTVWriters_MoviesTV" FromRole="MovieTVWriters" ToRole="MoviesTV" />
+          <NavigationProperty Name="Writer" Relationship="Self.FK_MovieTVWriters_Writers" FromRole="MovieTVWriters" ToRole="Writers" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="RegionID" />
+          </Key>
+          <Property Name="RegionID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Region1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="Self.FK_MoviesTV_Regions1" FromRole="Regions" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="Studio">
+          <Key>
+            <PropertyRef Name="StudioID" />
+          </Key>
+          <Property Name="StudioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudioName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="Self.FK_MoviesTV_Studios" FromRole="Studios" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="TitleStatus">
+          <Key>
+            <PropertyRef Name="TitleStatusID" />
+          </Key>
+          <Property Name="TitleStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TitleStatusName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Notes" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="Self.FK_MoviesTV_TitleStatuses" FromRole="TitleStatuses" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="TitleType">
+          <Key>
+            <PropertyRef Name="TitleTypeID" />
+          </Key>
+          <Property Name="TitleTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TitleType1" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="Self.FK_MoviesTV_TitleTypes" FromRole="TitleTypes" ToRole="MoviesTV" />
+        </EntityType>
+        <EntityType Name="Writer">
+          <Key>
+            <PropertyRef Name="WriterID" />
+          </Key>
+          <Property Name="WriterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MovieTVWriters" Relationship="Self.FK_MovieTVWriters_Writers" FromRole="Writers" ToRole="MovieTVWriters" />
+        </EntityType>
+        <Association Name="FK_MovieTVActors_Actors">
+          <End Role="Actors" Type="Self.Actor" Multiplicity="1" />
+          <End Role="MovieTVActors" Type="Self.MovieTVActor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actors">
+              <PropertyRef Name="ActorID" />
+            </Principal>
+            <Dependent Role="MovieTVActors">
+              <PropertyRef Name="ActorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVDirectors_Directors">
+          <End Role="Directors" Type="Self.Director" Multiplicity="1" />
+          <End Role="MovieTVDirectors" Type="Self.MovieTVDirector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Directors">
+              <PropertyRef Name="DirectorID" />
+            </Principal>
+            <Dependent Role="MovieTVDirectors">
+              <PropertyRef Name="DirectorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_DiscTypes">
+          <End Role="DiscTypes" Type="Self.DiscType" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiscTypes">
+              <PropertyRef Name="DiscTypeID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="DiscTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_Genres">
+          <End Role="Genres" Type="Self.Genre" Multiplicity="0..1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="GenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_Regions1">
+          <End Role="Regions" Type="Self.Region" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Regions">
+              <PropertyRef Name="RegionID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_Studios">
+          <End Role="Studios" Type="Self.Studio" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studios">
+              <PropertyRef Name="StudioID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="StudioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_TitleStatuses">
+          <End Role="TitleStatuses" Type="Self.TitleStatus" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TitleStatuses">
+              <PropertyRef Name="TitleStatusID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="TitleStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_TitleTypes">
+          <End Role="TitleTypes" Type="Self.TitleType" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TitleTypes">
+              <PropertyRef Name="TitleTypeID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="TitleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVActors_MoviesTV">
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="1" />
+          <End Role="MovieTVActors" Type="Self.MovieTVActor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesTV">
+              <PropertyRef Name="MovieTVID" />
+            </Principal>
+            <Dependent Role="MovieTVActors">
+              <PropertyRef Name="MovieTVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVDirectors_MoviesTV">
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="1" />
+          <End Role="MovieTVDirectors" Type="Self.MovieTVDirector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesTV">
+              <PropertyRef Name="MovieTVID" />
+            </Principal>
+            <Dependent Role="MovieTVDirectors">
+              <PropertyRef Name="MovieTVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVWriters_MoviesTV">
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="1" />
+          <End Role="MovieTVWriters" Type="Self.MovieTVWriter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoviesTV">
+              <PropertyRef Name="MovieTVID" />
+            </Principal>
+            <Dependent Role="MovieTVWriters">
+              <PropertyRef Name="MovieTVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieTVWriters_Writers">
+          <End Role="Writers" Type="Self.Writer" Multiplicity="1" />
+          <End Role="MovieTVWriters" Type="Self.MovieTVWriter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Writers">
+              <PropertyRef Name="WriterID" />
+            </Principal>
+            <Dependent Role="MovieTVWriters">
+              <PropertyRef Name="WriterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="StoreFrontEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Actors" EntityType="Self.Actor" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Directors" EntityType="Self.Director" />
+          <EntitySet Name="DiscTypes" EntityType="Self.DiscType" />
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="MoviesTVs" EntityType="Self.MoviesTV" />
+          <EntitySet Name="MovieTVActors" EntityType="Self.MovieTVActor" />
+          <EntitySet Name="MovieTVDirectors" EntityType="Self.MovieTVDirector" />
+          <EntitySet Name="MovieTVWriters" EntityType="Self.MovieTVWriter" />
+          <EntitySet Name="Regions" EntityType="Self.Region" />
+          <EntitySet Name="Studios" EntityType="Self.Studio" />
+          <EntitySet Name="TitleStatuses" EntityType="Self.TitleStatus" />
+          <EntitySet Name="TitleTypes" EntityType="Self.TitleType" />
+          <EntitySet Name="Writers" EntityType="Self.Writer" />
+          <AssociationSet Name="FK_MovieTVActors_Actors" Association="Self.FK_MovieTVActors_Actors">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="MovieTVActors" EntitySet="MovieTVActors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVDirectors_Directors" Association="Self.FK_MovieTVDirectors_Directors">
+            <End Role="Directors" EntitySet="Directors" />
+            <End Role="MovieTVDirectors" EntitySet="MovieTVDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_DiscTypes" Association="Self.FK_MoviesTV_DiscTypes">
+            <End Role="DiscTypes" EntitySet="DiscTypes" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_Genres" Association="Self.FK_MoviesTV_Genres">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_Regions1" Association="Self.FK_MoviesTV_Regions1">
+            <End Role="Regions" EntitySet="Regions" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_Studios" Association="Self.FK_MoviesTV_Studios">
+            <End Role="Studios" EntitySet="Studios" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_TitleStatuses" Association="Self.FK_MoviesTV_TitleStatuses">
+            <End Role="TitleStatuses" EntitySet="TitleStatuses" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_TitleTypes" Association="Self.FK_MoviesTV_TitleTypes">
+            <End Role="TitleTypes" EntitySet="TitleTypes" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVActors_MoviesTV" Association="Self.FK_MovieTVActors_MoviesTV">
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+            <End Role="MovieTVActors" EntitySet="MovieTVActors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVDirectors_MoviesTV" Association="Self.FK_MovieTVDirectors_MoviesTV">
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+            <End Role="MovieTVDirectors" EntitySet="MovieTVDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVWriters_MoviesTV" Association="Self.FK_MovieTVWriters_MoviesTV">
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+            <End Role="MovieTVWriters" EntitySet="MovieTVWriters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieTVWriters_Writers" Association="Self.FK_MovieTVWriters_Writers">
+            <End Role="Writers" EntitySet="Writers" />
+            <End Role="MovieTVWriters" EntitySet="MovieTVWriters" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StoreFrontModelStoreContainer" CdmEntityContainer="StoreFrontEntities">
+          <EntitySetMapping Name="Actors">
+            <EntityTypeMapping TypeName="StoreFrontModel.Actor">
+              <MappingFragment StoreEntitySet="Actors">
+                <ScalarProperty Name="ActorID" ColumnName="ActorID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="StoreFrontModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="StoreFrontModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="StoreFrontModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="StoreFrontModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Directors">
+            <EntityTypeMapping TypeName="StoreFrontModel.Director">
+              <MappingFragment StoreEntitySet="Directors">
+                <ScalarProperty Name="DirectorID" ColumnName="DirectorID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DiscTypes">
+            <EntityTypeMapping TypeName="StoreFrontModel.DiscType">
+              <MappingFragment StoreEntitySet="DiscTypes">
+                <ScalarProperty Name="DiscTypeID" ColumnName="DiscTypeID" />
+                <ScalarProperty Name="DiscType1" ColumnName="DiscType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="StoreFrontModel.Genre">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoviesTVs">
+            <EntityTypeMapping TypeName="StoreFrontModel.MoviesTV">
+              <MappingFragment StoreEntitySet="MoviesTV">
+                <ScalarProperty Name="MovieTVID" ColumnName="MovieTVID" />
+                <ScalarProperty Name="DiscTypeID" ColumnName="DiscTypeID" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="UPC" ColumnName="UPC" />
+                <ScalarProperty Name="TitleTypeID" ColumnName="TitleTypeID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+                <ScalarProperty Name="Runtime" ColumnName="Runtime" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="UnitsSold" ColumnName="UnitsSold" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="StudioID" ColumnName="StudioID" />
+                <ScalarProperty Name="TitleImage" ColumnName="TitleImage" />
+                <ScalarProperty Name="IsSiteFeature" ColumnName="IsSiteFeature" />
+                <ScalarProperty Name="IsGenreFeature" ColumnName="IsGenreFeature" />
+                <ScalarProperty Name="TitleStatusID" ColumnName="TitleStatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieTVActors">
+            <EntityTypeMapping TypeName="StoreFrontModel.MovieTVActor">
+              <MappingFragment StoreEntitySet="MovieTVActors">
+                <ScalarProperty Name="MovieTVActorID" ColumnName="MovieTVActorID" />
+                <ScalarProperty Name="MovieTVID" ColumnName="MovieTVID" />
+                <ScalarProperty Name="ActorID" ColumnName="ActorID" />
+                <ScalarProperty Name="ActorOrder" ColumnName="ActorOrder" />
+                <ScalarProperty Name="Character" ColumnName="Character" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieTVDirectors">
+            <EntityTypeMapping TypeName="StoreFrontModel.MovieTVDirector">
+              <MappingFragment StoreEntitySet="MovieTVDirectors">
+                <ScalarProperty Name="MovieTVDirectorID" ColumnName="MovieTVDirectorID" />
+                <ScalarProperty Name="MovieTVID" ColumnName="MovieTVID" />
+                <ScalarProperty Name="DirectorID" ColumnName="DirectorID" />
+                <ScalarProperty Name="DirectorOrder" ColumnName="DirectorOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieTVWriters">
+            <EntityTypeMapping TypeName="StoreFrontModel.MovieTVWriter">
+              <MappingFragment StoreEntitySet="MovieTVWriters">
+                <ScalarProperty Name="MovieTVWriterID" ColumnName="MovieTVWriterID" />
+                <ScalarProperty Name="MovieTVID" ColumnName="MovieTVID" />
+                <ScalarProperty Name="WriterID" ColumnName="WriterID" />
+                <ScalarProperty Name="WriterOrder" ColumnName="WriterOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="StoreFrontModel.Region">
+              <MappingFragment StoreEntitySet="Regions">
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="Region1" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Studios">
+            <EntityTypeMapping TypeName="StoreFrontModel.Studio">
+              <MappingFragment StoreEntitySet="Studios">
+                <ScalarProperty Name="StudioID" ColumnName="StudioID" />
+                <ScalarProperty Name="StudioName" ColumnName="StudioName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TitleStatuses">
+            <EntityTypeMapping TypeName="StoreFrontModel.TitleStatus">
+              <MappingFragment StoreEntitySet="TitleStatuses">
+                <ScalarProperty Name="TitleStatusID" ColumnName="TitleStatusID" />
+                <ScalarProperty Name="TitleStatusName" ColumnName="TitleStatusName" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TitleTypes">
+            <EntityTypeMapping TypeName="StoreFrontModel.TitleType">
+              <MappingFragment StoreEntitySet="TitleTypes">
+                <ScalarProperty Name="TitleTypeID" ColumnName="TitleTypeID" />
+                <ScalarProperty Name="TitleType1" ColumnName="TitleType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Writers">
+            <EntityTypeMapping TypeName="StoreFrontModel.Writer">
+              <MappingFragment StoreEntitySet="Writers">
+                <ScalarProperty Name="WriterID" ColumnName="WriterID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="StoreFrontModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
