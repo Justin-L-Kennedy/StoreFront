@@ -21,7 +21,7 @@ namespace StoreFront.DATA.EF
         }
     
         public int DiscTypeID { get; set; }
-        public string DiscType1 { get; set; }
+        public string DiscTypeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MoviesTV> MoviesTVs { get; set; }

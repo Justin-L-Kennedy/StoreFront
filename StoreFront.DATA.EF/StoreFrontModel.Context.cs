@@ -26,21 +26,17 @@ namespace StoreFront.DATA.EF
         }
     
         public virtual DbSet<Actor> Actors { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Director> Directors { get; set; }
-        public virtual DbSet<DiscType> DiscTypes { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<MoviesTV> MoviesTVs { get; set; }
         public virtual DbSet<MovieTVActor> MovieTVActors { get; set; }
         public virtual DbSet<MovieTVDirector> MovieTVDirectors { get; set; }
         public virtual DbSet<MovieTVWriter> MovieTVWriters { get; set; }
-        public virtual DbSet<Region> Regions { get; set; }
         public virtual DbSet<Studio> Studios { get; set; }
         public virtual DbSet<TitleStatus> TitleStatuses { get; set; }
-        public virtual DbSet<TitleType> TitleTypes { get; set; }
         public virtual DbSet<Writer> Writers { get; set; }
+        public virtual DbSet<DiscType> DiscTypes { get; set; }
+        public virtual DbSet<TitleType> TitleTypes { get; set; }
+        public virtual DbSet<RegionCode> RegionCodes { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace StoreFront.DATA.EF
     
         public int MovieTVID { get; set; }
         public int DiscTypeID { get; set; }
-        public string RegionID { get; set; }
+        public string RegionCodeID { get; set; }
         public string UPC { get; set; }
         public int TitleTypeID { get; set; }
         public string Title { get; set; }
@@ -40,17 +40,17 @@ namespace StoreFront.DATA.EF
         public bool IsGenreFeature { get; set; }
         public int TitleStatusID { get; set; }
     
-        public virtual DiscType DiscType { get; set; }
         public virtual Genre Genre { get; set; }
-        public virtual Region Region { get; set; }
         public virtual Studio Studio { get; set; }
         public virtual TitleStatus TitleStatus { get; set; }
-        public virtual TitleType TitleType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieTVActor> MovieTVActors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieTVDirector> MovieTVDirectors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieTVWriter> MovieTVWriters { get; set; }
+        public virtual DiscType DiscType { get; set; }
+        public virtual TitleType TitleType { get; set; }
+        public virtual RegionCode RegionCode { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace StoreFront.DATA.EF
         }
     
         public int TitleTypeID { get; set; }
-        public string TitleType1 { get; set; }
+        public string TitleTypeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MoviesTV> MoviesTVs { get; set; }

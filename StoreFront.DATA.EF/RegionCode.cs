@@ -12,16 +12,16 @@ namespace StoreFront.DATA.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Region
+    public partial class RegionCode
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Region()
+        public RegionCode()
         {
             this.MoviesTVs = new HashSet<MoviesTV>();
         }
     
-        public string RegionID { get; set; }
-        public string Region1 { get; set; }
+        public string RegionCodeID { get; set; }
+        public string RegionCodeInfo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MoviesTV> MoviesTVs { get; set; }
