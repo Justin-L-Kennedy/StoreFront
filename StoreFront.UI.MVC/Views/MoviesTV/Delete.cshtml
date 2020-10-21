@@ -1,0 +1,160 @@
+﻿@model StoreFront.DATA.EF.MoviesTV
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Movies/TV</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UPC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UPC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Runtime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Runtime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitsSold)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitsSold)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleImage)
+        </dt>
+
+        <dd>
+            <img src="~/Content/img/MoviesTV/@Model.TitleImage" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSiteFeature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSiteFeature)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsOnSaleFeature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsOnSaleFeature)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre.GenreName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Studio.StudioName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Studio.StudioName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleStatus.TitleStatusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitleStatus.TitleStatusName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscType.DiscTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiscType.DiscTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleType.TitleTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitleType.TitleTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegionCode.RegionCodeInfo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MPAARating.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MPAARating.Rating)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

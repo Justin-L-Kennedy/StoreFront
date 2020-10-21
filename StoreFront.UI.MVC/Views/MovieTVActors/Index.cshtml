@@ -1,0 +1,51 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.MovieTVActor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MoviesTV.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Actor.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Character)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActorOrder)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MoviesTV.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Actor.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Character)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActorOrder)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MovieTVActorID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MovieTVActorID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MovieTVActorID })
+        </td>
+    </tr>
+}
+
+</table>

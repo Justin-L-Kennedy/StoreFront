@@ -1,0 +1,42 @@
+﻿@model StoreFront.DATA.EF.MovieTVDirector
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MovieTVDirector</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MoviesTV.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoviesTV.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Director.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Director.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DirectorOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DirectorOrder)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieTVDirectorID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

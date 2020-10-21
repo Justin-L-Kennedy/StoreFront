@@ -1,0 +1,357 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.MoviesTV>
+
+@{
+    ViewBag.Title = "Movies/TV";
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="active">Movies/TV</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- ASIDE -->
+            <div id="aside" class="col-md-3">
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Formats</h3>
+                    <div class="checkbox-filter">
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="category-1">
+                            <label for="category-1">
+                                <span></span>
+                                DVD
+                                <small>(120)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="category-2">
+                            <label for="category-2">
+                                <span></span>
+                                Blu-ray
+                                <small>(740)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="category-3">
+                            <label for="category-3">
+                                <span></span>
+                                4K Ultra HD
+                                <small>(1450)</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Price</h3>
+                    <div class="price-filter">
+                        <div id="price-slider"></div>
+                        <div class="input-number price-min">
+                            <input id="price-min" type="number">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                        <span>-</span>
+                        <div class="input-number price-max">
+                            <input id="price-max" type="number">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Genres</h3>
+                    <div class="checkbox-filter">
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-1">
+                            <label for="brand-1">
+                                <span></span>
+                                Action &amp; Adventure
+                                <small>(578)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-2">
+                            <label for="brand-2">
+                                <span></span>
+                                Animation
+                                <small>(125)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-3">
+                            <label for="brand-3">
+                                <span></span>
+                                Anime
+                                <small>(755)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-4">
+                            <label for="brand-4">
+                                <span></span>
+                                Comedy
+                                <small>(578)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-5">
+                            <label for="brand-5">
+                                <span></span>
+                                Crime
+                                <small>(125)</small>
+                            </label>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="brand-6">
+                            <label for="brand-6">
+                                <span></span>
+                                Documentary
+                                <small>(755)</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+            </div>
+            <!-- /ASIDE -->
+            <!-- STORE -->
+            <div id="store" class="col-md-9">
+                <!-- store top filter -->
+                <div class="store-filter clearfix">
+                    <div class="store-sort">
+                        <label>
+                            Sort By:
+                            <select class="input-select">
+                                <option value="0">Popular</option>
+                                <option value="1">Position</option>
+                            </select>
+                        </label>
+                        <label>
+                            Show:
+                            <select class="input-select">
+                                <option value="0">20</option>
+                                <option value="1">50</option>
+                            </select>
+                        </label>
+                    </div>
+                    <ul class="store-grid">
+                        <li class="active"><i class="fa fa-th"></i></li>
+                        <li><a href="#"><i class="fa fa-th-list"></i></a></li>
+                    </ul>
+                </div>
+                <!-- /store top filter -->
+                <!-- store products -->
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <!-- product -->
+                        <div class="col-md-4 col-xs-6">
+                            <div class="product">
+                                <div class="product-img">
+                                    <a href="@Url.Action("Details", new { id = item.MovieTVID })">
+                                        <img src="~/Content/img/MoviesTV/@item.TitleImage" alt="Title Cover" title="@item.Title">
+                                    </a>
+                                        <div class="product-label">
+                                            @if (item.IsSiteFeature == true)
+                                            {
+                                                <span class="new">NEW</span>
+                                            }
+                                            @if (item.IsOnSaleFeature == true)
+                                            {
+                                                <span class="sale">-20%</span>
+                                            }
+                                        </div>
+                                </div>
+                                <div class="product-body">
+                                    <p class="product-category">@Html.DisplayFor(modelItem => item.DiscType.DiscTypeName)</p>
+                                    <h3 class="product-name"><a href="@Url.Action("Details", new { id = item.MovieTVID })">@Html.DisplayFor(modelItem => item.Title)</a></h3>
+                                    <h4 class="product-price">@Html.DisplayFor(modelItem => item.SalePrice) @if (item.IsOnSaleFeature == true){<del class="product-old-price">@Html.DisplayFor(modelItem => item.Price)</del>}</h4>
+                                    <div class="product-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </div>
+                                    <div class="product-btns">
+                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /product -->
+                        <div class="clearfix visible-sm visible-xs"></div>
+                    }
+                </div>
+                <!-- /store products -->
+                <!-- store bottom filter -->
+                <div class="store-filter clearfix">
+                    <span class="store-qty">Showing 20-100 products</span>
+                    <ul class="store-pagination">
+                        <li class="active">1</li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    </ul>
+                </div>
+                <!-- /store bottom filter -->
+            </div>
+            <!-- /STORE -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UPC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Runtime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MPAARating.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitsSold)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TitleImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSiteFeature)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsOnSaleFeature)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Studio.StudioName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TitleStatus.TitleStatusName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscType.DiscTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TitleType.TitleTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UPC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Runtime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MPAARating.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitsSold)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TitleImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSiteFeature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOnSaleFeature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre.GenreName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Studio.StudioName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TitleStatus.TitleStatusName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscType.DiscTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TitleType.TitleTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegionCode.RegionCodeInfo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MovieTVID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVID })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -50,13 +50,14 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="GenreID" Type="int" />
           <Property Name="Runtime" Type="int" />
+          <Property Name="MPAARatingID" Type="int" Nullable="false" />
           <Property Name="Price" Type="money" />
           <Property Name="UnitsSold" Type="int" />
           <Property Name="ReleaseDate" Type="date" />
           <Property Name="StudioID" Type="int" Nullable="false" />
           <Property Name="TitleImage" Type="varchar" MaxLength="100" />
           <Property Name="IsSiteFeature" Type="bit" Nullable="false" />
-          <Property Name="IsGenreFeature" Type="bit" Nullable="false" />
+          <Property Name="IsOnSaleFeature" Type="bit" Nullable="false" />
           <Property Name="TitleStatusID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MovieTVActors">
@@ -86,6 +87,14 @@
           <Property Name="MovieTVID" Type="int" Nullable="false" />
           <Property Name="WriterID" Type="int" Nullable="false" />
           <Property Name="WriterOrder" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="MPAARatings">
+          <Key>
+            <PropertyRef Name="MPAARatingID" />
+          </Key>
+          <Property Name="MPAARatingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rating" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="RatingInfo" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="RegionCodes">
           <Key>
@@ -148,6 +157,18 @@
             </Principal>
             <Dependent Role="MoviesTV">
               <PropertyRef Name="GenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviesTV_MPAARatings">
+          <End Role="MPAARatings" Type="Self.MPAARatings" Multiplicity="1" />
+          <End Role="MoviesTV" Type="Self.MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MPAARatings">
+              <PropertyRef Name="MPAARatingID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="MPAARatingID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -280,6 +301,7 @@
           <EntitySet Name="MovieTVActors" EntityType="Self.MovieTVActors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovieTVDirectors" EntityType="Self.MovieTVDirectors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovieTVWriters" EntityType="Self.MovieTVWriters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MPAARatings" EntityType="Self.MPAARatings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegionCodes" EntityType="Self.RegionCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Studios" EntityType="Self.Studios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TitleStatuses" EntityType="Self.TitleStatuses" Schema="dbo" store:Type="Tables" />
@@ -291,6 +313,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_MoviesTV_Genres" Association="Self.FK_MoviesTV_Genres">
             <End Role="Genres" EntitySet="Genres" />
+            <End Role="MoviesTV" EntitySet="MoviesTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviesTV_MPAARatings" Association="Self.FK_MoviesTV_MPAARatings">
+            <End Role="MPAARatings" EntitySet="MPAARatings" />
             <End Role="MoviesTV" EntitySet="MoviesTV" />
           </AssociationSet>
           <AssociationSet Name="FK_MoviesTV_RegionCodes" Association="Self.FK_MoviesTV_RegionCodes">
@@ -379,13 +405,14 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="GenreID" Type="Int32" />
           <Property Name="Runtime" Type="Int32" />
+          <Property Name="MPAARatingID" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="UnitsSold" Type="Int32" />
           <Property Name="ReleaseDate" Type="DateTime" Precision="0" />
           <Property Name="StudioID" Type="Int32" Nullable="false" />
           <Property Name="TitleImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsSiteFeature" Type="Boolean" Nullable="false" />
-          <Property Name="IsGenreFeature" Type="Boolean" Nullable="false" />
+          <Property Name="IsOnSaleFeature" Type="Boolean" Nullable="false" />
           <Property Name="TitleStatusID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Genre" Relationship="Self.FK_MoviesTV_Genres" FromRole="MoviesTV" ToRole="Genres" />
           <NavigationProperty Name="Studio" Relationship="Self.FK_MoviesTV_Studios" FromRole="MoviesTV" ToRole="Studios" />
@@ -396,6 +423,7 @@
           <NavigationProperty Name="DiscType" Relationship="StoreFrontModel.FK_MoviesTV_DiscTypes" FromRole="MoviesTV" ToRole="DiscType" />
           <NavigationProperty Name="TitleType" Relationship="StoreFrontModel.FK_MoviesTV_TitleTypes" FromRole="MoviesTV" ToRole="TitleType" />
           <NavigationProperty Name="RegionCode" Relationship="StoreFrontModel.FK_MoviesTV_RegionCodes" FromRole="MoviesTV" ToRole="RegionCode" />
+          <NavigationProperty Name="MPAARating" Relationship="StoreFrontModel.FK_MoviesTV_MPAARatings" FromRole="MoviesTV" ToRole="MPAARating" />
         </EntityType>
         <EntityType Name="MovieTVActor">
           <Key>
@@ -630,6 +658,11 @@
             <End Role="RegionCode" EntitySet="RegionCodes" />
             <End Role="MoviesTV" EntitySet="MoviesTVs" />
           </AssociationSet>
+          <EntitySet Name="MPAARatings" EntityType="StoreFrontModel.MPAARating" />
+          <AssociationSet Name="FK_MoviesTV_MPAARatings" Association="StoreFrontModel.FK_MoviesTV_MPAARatings">
+            <End Role="MPAARating" EntitySet="MPAARatings" />
+            <End Role="MoviesTV" EntitySet="MoviesTVs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DiscType">
           <Key>
@@ -691,6 +724,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MPAARating">
+          <Key>
+            <PropertyRef Name="MPAARatingID" />
+          </Key>
+          <Property Name="MPAARatingID" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="RatingInfo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MoviesTVs" Relationship="StoreFrontModel.FK_MoviesTV_MPAARatings" FromRole="MPAARating" ToRole="MoviesTV" />
+        </EntityType>
+        <Association Name="FK_MoviesTV_MPAARatings">
+          <End Type="StoreFrontModel.MPAARating" Role="MPAARating" Multiplicity="1" />
+          <End Type="StoreFrontModel.MoviesTV" Role="MoviesTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MPAARating">
+              <PropertyRef Name="MPAARatingID" />
+            </Principal>
+            <Dependent Role="MoviesTV">
+              <PropertyRef Name="MPAARatingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -728,6 +782,8 @@
           <EntitySetMapping Name="MoviesTVs">
             <EntityTypeMapping TypeName="StoreFrontModel.MoviesTV">
               <MappingFragment StoreEntitySet="MoviesTV">
+                <ScalarProperty Name="MPAARatingID" ColumnName="MPAARatingID" />
+                <ScalarProperty Name="IsOnSaleFeature" ColumnName="IsOnSaleFeature" />
                 <ScalarProperty Name="RegionCodeID" ColumnName="RegionCodeID" />
                 <ScalarProperty Name="MovieTVID" ColumnName="MovieTVID" />
                 <ScalarProperty Name="DiscTypeID" ColumnName="DiscTypeID" />
@@ -743,7 +799,6 @@
                 <ScalarProperty Name="StudioID" ColumnName="StudioID" />
                 <ScalarProperty Name="TitleImage" ColumnName="TitleImage" />
                 <ScalarProperty Name="IsSiteFeature" ColumnName="IsSiteFeature" />
-                <ScalarProperty Name="IsGenreFeature" ColumnName="IsGenreFeature" />
                 <ScalarProperty Name="TitleStatusID" ColumnName="TitleStatusID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -829,6 +884,15 @@
               <MappingFragment StoreEntitySet="RegionCodes">
                 <ScalarProperty Name="RegionCodeInfo" ColumnName="RegionCodeInfo" />
                 <ScalarProperty Name="RegionCodeID" ColumnName="RegionCodeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MPAARatings">
+            <EntityTypeMapping TypeName="StoreFrontModel.MPAARating">
+              <MappingFragment StoreEntitySet="MPAARatings">
+                <ScalarProperty Name="RatingInfo" ColumnName="RatingInfo" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="MPAARatingID" ColumnName="MPAARatingID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

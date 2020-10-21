@@ -18,13 +18,21 @@ namespace StoreFront.UI.MVC
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+            bundles.Add(new ScriptBundle("~/bundles/template").Include(
+                "~/Content/js/jquery.min.js",
+                "~/Content/js/bootstrap.min.js",
+                "~/Content/js/slick.min.js",
+                "~/Content/js/nouislider.min.js",
+                "~/Content/js/jquery.zoom.min.js",
+                "~/Content/js/main.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                "~/Content/css/bootstrap.min.css",
+                "~/Content/css/slick.css",
+                "~/Content/css/slick-theme.css",
+                "~/Content/css/nouislider.min.css",
+                "~/Content/css/font-awesome.min.css",
+                "~/Content/css/style.css"));
         }
     }
 }

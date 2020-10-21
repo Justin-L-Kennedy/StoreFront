@@ -168,10 +168,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActorsController.cs" />
+    <Compile Include="Controllers\DirectorsController.cs" />
+    <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MoviesTVController.cs" />
+    <Compile Include="Controllers\MovieTVActorsController.cs" />
+    <Compile Include="Controllers\MovieTVDirectorsController.cs" />
+    <Compile Include="Controllers\MovieTVWritersController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\StudiosController.cs" />
+    <Compile Include="Controllers\TitleStatusController.cs" />
+    <Compile Include="Controllers\TitleTypesController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="Controllers\WritersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,6 +193,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\ImageUploadUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap.min.css" />
@@ -194,6 +206,8 @@
     <Content Include="Content\fonts\slick.svg" />
     <Content Include="Content\img\hotdeal.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\MoviesTV\NoImage.png" />
+    <Content Include="Content\img\MoviesTV\t_NoImage.png" />
     <Content Include="Content\img\product01.png" />
     <Content Include="Content\img\product02.png" />
     <Content Include="Content\img\product03.png" />
@@ -332,6 +346,61 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\EmailConfirmation.cshtml" />
+    <Content Include="Views\MoviesTV\Create.cshtml" />
+    <Content Include="Views\MoviesTV\Delete.cshtml" />
+    <Content Include="Views\MoviesTV\Details.cshtml" />
+    <Content Include="Views\MoviesTV\Edit.cshtml" />
+    <Content Include="Views\MoviesTV\Index.cshtml" />
+    <Content Include="Views\Actors\Create.cshtml" />
+    <Content Include="Views\Actors\Delete.cshtml" />
+    <Content Include="Views\Actors\Details.cshtml" />
+    <Content Include="Views\Actors\Edit.cshtml" />
+    <Content Include="Views\Actors\Index.cshtml" />
+    <Content Include="Views\MovieTVActors\Create.cshtml" />
+    <Content Include="Views\MovieTVActors\Delete.cshtml" />
+    <Content Include="Views\MovieTVActors\Details.cshtml" />
+    <Content Include="Views\MovieTVActors\Edit.cshtml" />
+    <Content Include="Views\MovieTVActors\Index.cshtml" />
+    <Content Include="Views\Directors\Create.cshtml" />
+    <Content Include="Views\Directors\Delete.cshtml" />
+    <Content Include="Views\Directors\Details.cshtml" />
+    <Content Include="Views\Directors\Edit.cshtml" />
+    <Content Include="Views\Directors\Index.cshtml" />
+    <Content Include="Views\MovieTVDirectors\Create.cshtml" />
+    <Content Include="Views\MovieTVDirectors\Delete.cshtml" />
+    <Content Include="Views\MovieTVDirectors\Details.cshtml" />
+    <Content Include="Views\MovieTVDirectors\Edit.cshtml" />
+    <Content Include="Views\MovieTVDirectors\Index.cshtml" />
+    <Content Include="Views\Writers\Create.cshtml" />
+    <Content Include="Views\Writers\Delete.cshtml" />
+    <Content Include="Views\Writers\Details.cshtml" />
+    <Content Include="Views\Writers\Edit.cshtml" />
+    <Content Include="Views\Writers\Index.cshtml" />
+    <Content Include="Views\MovieTVWriters\Create.cshtml" />
+    <Content Include="Views\MovieTVWriters\Delete.cshtml" />
+    <Content Include="Views\MovieTVWriters\Details.cshtml" />
+    <Content Include="Views\MovieTVWriters\Edit.cshtml" />
+    <Content Include="Views\MovieTVWriters\Index.cshtml" />
+    <Content Include="Views\Studios\Create.cshtml" />
+    <Content Include="Views\Studios\Delete.cshtml" />
+    <Content Include="Views\Studios\Details.cshtml" />
+    <Content Include="Views\Studios\Edit.cshtml" />
+    <Content Include="Views\Studios\Index.cshtml" />
+    <Content Include="Views\Genres\Create.cshtml" />
+    <Content Include="Views\Genres\Delete.cshtml" />
+    <Content Include="Views\Genres\Details.cshtml" />
+    <Content Include="Views\Genres\Edit.cshtml" />
+    <Content Include="Views\Genres\Index.cshtml" />
+    <Content Include="Views\TitleTypes\Create.cshtml" />
+    <Content Include="Views\TitleTypes\Delete.cshtml" />
+    <Content Include="Views\TitleTypes\Details.cshtml" />
+    <Content Include="Views\TitleTypes\Edit.cshtml" />
+    <Content Include="Views\TitleTypes\Index.cshtml" />
+    <Content Include="Views\TitleStatus\Create.cshtml" />
+    <Content Include="Views\TitleStatus\Delete.cshtml" />
+    <Content Include="Views\TitleStatus\Details.cshtml" />
+    <Content Include="Views\TitleStatus\Edit.cshtml" />
+    <Content Include="Views\TitleStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,6 +30,8 @@
         <AssociationConnector Association="StoreFrontModel.FK_MoviesTV_TitleTypes" />
         <EntityTypeShape EntityType="StoreFrontModel.RegionCode" Width="1.5" PointX="0.5" PointY="6.25" />
         <AssociationConnector Association="StoreFrontModel.FK_MoviesTV_RegionCodes" />
+        <EntityTypeShape EntityType="StoreFrontModel.MPAARating" Width="1.5" PointX="7.375" PointY="0.875" />
+        <AssociationConnector Association="StoreFrontModel.FK_MoviesTV_MPAARatings" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

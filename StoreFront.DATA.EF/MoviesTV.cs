@@ -31,13 +31,14 @@ namespace StoreFront.DATA.EF
         public string Description { get; set; }
         public Nullable<int> GenreID { get; set; }
         public Nullable<int> Runtime { get; set; }
+        public int MPAARatingID { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<int> UnitsSold { get; set; }
         public Nullable<System.DateTime> ReleaseDate { get; set; }
         public int StudioID { get; set; }
         public string TitleImage { get; set; }
         public bool IsSiteFeature { get; set; }
-        public bool IsGenreFeature { get; set; }
+        public bool IsOnSaleFeature { get; set; }
         public int TitleStatusID { get; set; }
     
         public virtual Genre Genre { get; set; }
@@ -52,5 +53,6 @@ namespace StoreFront.DATA.EF
         public virtual DiscType DiscType { get; set; }
         public virtual TitleType TitleType { get; set; }
         public virtual RegionCode RegionCode { get; set; }
+        public virtual MPAARating MPAARating { get; set; }
     }
 }

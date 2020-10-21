@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title | Justin's Reel House</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
-    <!-- Bootstrap -->
+    @*<!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
 
     <!-- Slick -->
@@ -25,7 +25,9 @@
     <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
 
     <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="~/Content/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/css/style.css" />*@
+
+    @Styles.Render("~/Content/css")
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,13 +44,18 @@
         <div id="top-header">
             <div class="container">
                 <ul class="header-links pull-left">
-                    <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-                    <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+                    <li><a href="+01-913-638-9056"><i class="fa fa-phone"></i> 913-638-9056</a></li>
+                    <li><a href="mailto:Justin.L.Kennedy@outlook.com"><i class="fa fa-envelope-o"></i> Justin.L.Kennedy@outlook.com</a></li>
+                    <li><a href="https://www.google.com/maps/place/Kansas+City+Metropolitan+Area/@("@")39.0512504,-94.8531702,10z/data=!4m5!3m4!1s0x87c0e5f7a6c7ad99:0x2d3967c6e6fea83a!8m2!3d38.97887!4d-94.645035"><i class="fa fa-map-marker"></i> Kansas City Metropolitan</a></li>
                 </ul>
                 <ul class="header-links pull-right">
                     <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o"></i> My Account</a>
+                        <div class="dropdown-menu" style="background-color: darkgray">
+                            @Html.Partial("_LoginPartial")
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -171,7 +178,7 @@
                 
                 <ul class="main-nav nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = currentRoute == "home-index" ? "active" : "" })</li>
-                    <li><a href="#">Hot Deals</a></li>
+                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV", null, new { @class = currentRoute == "moviestv-index" ? "active" : "" })</li>
                     <li><a href="#">Categories</a></li>
                     <li><a href="#">Laptops</a></li>
                     <li><a href="#">Smartphones</a></li>
@@ -236,9 +243,9 @@
                             <h3 class="footer-title">About Us</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
                             <ul class="footer-links">
-                                <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                                <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+                                <li><a href="https://www.google.com/maps/place/Kansas+City+Metropolitan+Area/@("@")39.0512504,-94.8531702,10z/data=!4m5!3m4!1s0x87c0e5f7a6c7ad99:0x2d3967c6e6fea83a!8m2!3d38.97887!4d-94.645035"><i class="fa fa-map-marker"></i>Kansas City Metropolitan</a></li>
+                                <li><a href="+01-913-638-9056"><i class="fa fa-phone"></i>913-638-9056</a></li>
+                                <li><a href="mailto:Justin.L.Kennedy@outlook.com"><i class="fa fa-envelope-o"></i>Justin.L.Kennedy@outlook.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -319,12 +326,13 @@
     </footer>
     <!-- /FOOTER -->
     <!-- jQuery Plugins -->
-    <script src="~/Content/js/jquery.min.js"></script>
+    @*<script src="~/Content/js/jquery.min.js"></script>
     <script src="~/Content/js/bootstrap.min.js"></script>
     <script src="~/Content/js/slick.min.js"></script>
     <script src="~/Content/js/nouislider.min.js"></script>
     <script src="~/Content/js/jquery.zoom.min.js"></script>
-    <script src="~/Content/js/main.js"></script>
+    <script src="~/Content/js/main.js"></script>*@
+    @Scripts.Render("~/bundles/template")
 
     @RenderSection("scripts", false)
 

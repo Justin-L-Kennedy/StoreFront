@@ -1,0 +1,147 @@
+﻿@model StoreFront.DATA.EF.MoviesTV
+
+@{
+    ViewBag.Title = $"{Model.Title}";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="col-md-6">
+    <img src="~/Content/img/MoviesTV/@Model.TitleImage" alt="Title cover" title="@Model.Title" />
+</div>
+<div class="col-md-6">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UPC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UPC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Runtime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Runtime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitsSold)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitsSold)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSiteFeature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSiteFeature)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsOnSaleFeature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsOnSaleFeature)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre.GenreName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Studio.StudioName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Studio.StudioName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleStatus.TitleStatusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitleStatus.TitleStatusName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscType.DiscTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiscType.DiscTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TitleType.TitleTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TitleType.TitleTypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegionCode.RegionCodeInfo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MPAARating.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MPAARating.Rating)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieTVID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -75,6 +75,9 @@
     <Compile Include="MovieTVWriter.cs">
       <DependentUpon>StoreFrontModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MPAARating.cs">
+      <DependentUpon>StoreFrontModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionCode.cs">
       <DependentUpon>StoreFrontModel.tt</DependentUpon>

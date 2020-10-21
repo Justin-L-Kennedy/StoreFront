@@ -10,7 +10,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region Actor Metadata
     public class ActorMetadata
     {
-        //public int ActorID { get; set; }
+        [Display(Name = "Actor ID")]
+        public int ActorID { get; set; }
 
         [Required(ErrorMessage = "* First Name is required")]
         [StringLength(25, ErrorMessage = "* First Name cannot be longer than 25 characters")]
@@ -38,7 +39,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region Director Metadata
     public class DirectorMetadata
     {
-        //public int DirectorID { get; set; }
+        [Display(Name = "Director ID")]
+        public int DirectorID { get; set; }
 
         [Required(ErrorMessage = "* First Name is required")]
         [StringLength(25, ErrorMessage = "* First Name cannot be longer than 25 characters")]
@@ -66,7 +68,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region DiscType Metadata
     public class DiscTypeMetadata
     {
-        //public int DiscTypeID { get; set; }
+        [Display(Name = "Disc Type")]
+        public int DiscTypeID { get; set; }
 
         [Required(ErrorMessage = "* Disc Type is required")]
         [StringLength(3, ErrorMessage = "* Disc Type cannot be longer than 3 characters")]
@@ -84,7 +87,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region Genre Metadata
     public class GenreMetadata
     {
-        //public int GenreID { get; set; }
+        [Display(Name = "Genre")]
+        public int GenreID { get; set; }
 
         [Required(ErrorMessage = "* Genre is required")]
         [StringLength(50, ErrorMessage = "* Genre cannot be longer than 50 characters")]
@@ -102,7 +106,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region MoviesTV Metadata
     public class MoviesTVMetadata
     {
-        //public int MovieTVID { get; set; }
+        [Display(Name = "Movie/TV ID")]
+        public int MovieTVID { get; set; }
 
         [Required(ErrorMessage = "* Disc Type ID is required")]
         [Display(Name = "Disc Type ID")]
@@ -136,6 +141,10 @@ namespace StoreFront.DATA.EF//.Metadata
         [DisplayFormat(NullDisplayText = "N/A")]
         public Nullable<int> Runtime { get; set; }
 
+        [Required(ErrorMessage = "* MPAA Rating is required")]
+        [Display(Name = "MPAA Rating ID")]
+        public int MPAARatingID { get; set; }
+
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:c}")]
         [Range(0, double.MaxValue, ErrorMessage = "* Price must be a valid number 0 or larger")]
         public Nullable<decimal> Price { get; set; }
@@ -159,8 +168,8 @@ namespace StoreFront.DATA.EF//.Metadata
         [Display(Name = "Site Feature")]
         public bool IsSiteFeature { get; set; }
 
-        [Display(Name = "Genre Feature")]
-        public bool IsGenreFeature { get; set; }
+        [Display(Name = "On Sale")]
+        public bool IsOnSaleFeature { get; set; }
 
         [Required(ErrorMessage = "* Title Status ID is required")]
         [Display(Name = "Title Status ID")]
@@ -170,14 +179,29 @@ namespace StoreFront.DATA.EF//.Metadata
     [MetadataType(typeof(MoviesTVMetadata))]
     public partial class MoviesTV
     {
-
+        [Display(Name = "Sale Price")]
+        public decimal SalePrice
+        {
+            get
+            {
+                if (IsOnSaleFeature == true)
+                {
+                    return Convert.ToDecimal(Price * .8m);
+                }
+                else
+                {
+                    return Convert.ToDecimal(Price);
+                };
+            }
+        }
     }
     #endregion
 
     #region MovieTVActor Metadata
     public class MovieTVActorMetadata
     {
-        //public int MovieTVActorID { get; set; }
+        [Display(Name = "Movie/TV Actor ID")]
+        public int MovieTVActorID { get; set; }
 
         [Required(ErrorMessage = "* Movie/TV ID is required")]
         [Display(Name = "Movie/TV ID")]
@@ -206,7 +230,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region MovieTVDirector Metadata
     public class MovieTVDirectorMetadata
     {
-        //public int MovieTVDirectorID { get; set; }
+        [Display(Name = "Movie/TV Director ID")]
+        public int MovieTVDirectorID { get; set; }
 
         [Required(ErrorMessage = "* Movie/TV ID is required")]
         [Display(Name = "Movie/TV ID")]
@@ -231,7 +256,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region MovieTVWriter Metadata
     public class MovieTVWriterMetadata
     {
-        //public int MovieTVWriterID { get; set; }
+        [Display(Name = "Movie/TV Writer ID")]
+        public int MovieTVWriterID { get; set; }
 
         [Required(ErrorMessage = "* Movie/TV ID is required")]
         [Display(Name = "Movie/TV ID")]
@@ -248,6 +274,31 @@ namespace StoreFront.DATA.EF//.Metadata
 
     [MetadataType(typeof(MovieTVWriterMetadata))]
     public partial class MovieTVWriter
+    {
+
+    }
+    #endregion
+
+    #region MPAARating Metadata
+    public class MPAARatingMetadata
+    {
+        [Display(Name = "MPAA Rating ID")]
+        public int MPAARatingID { get; set; }
+
+        [Required(ErrorMessage = "* MPAA Rating is required")]
+        [StringLength(5, ErrorMessage = "* MPAA Rating cannot be longer than 5 characters")]
+        [Display(Name = "Rated")]
+        public string Rating { get; set; }
+
+        [Required(ErrorMessage = "* MPAA Rating Information is required")]
+        [StringLength(100, ErrorMessage = "* MPAA Rating Information cannot be longer than 100 characters")]
+        [UIHint("MultilineText")]
+        [Display(Name = "MPAA Rating Information")]
+        public string RatingInfo { get; set; }
+    }
+
+    [MetadataType(typeof(MPAARatingMetadata))]
+    public partial class MPAARating
     {
 
     }
@@ -277,7 +328,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region Studio Metadata
     public class StudioMetadata
     {
-        //public int StudioID { get; set; }
+        [Display(Name = "Studio ID")]
+        public int StudioID { get; set; }
 
         [Required(ErrorMessage = "* Studio Name is required")]
         [StringLength(50, ErrorMessage = "* Studio Name cannot be longer than 50 characters")]
@@ -302,7 +354,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region TitleStatus Metadata
     public class TitleStatusMetadata
     {
-        //public int TitleStatusID { get; set; }
+        [Display(Name = "Title Status ID")]
+        public int TitleStatusID { get; set; }
 
         [Required(ErrorMessage = "* Title Status is required")]
         [StringLength(25, ErrorMessage = "* Title Status cannot be longer than 25 characters")]
@@ -325,7 +378,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region TitleType Metadata
     public class TitleTypeMetadata
     {
-        //public int TitleTypeID { get; set; }
+        [Display(Name = "Title Type ID")]
+        public int TitleTypeID { get; set; }
 
         [Required(ErrorMessage = "* Title Type is required")]
         [StringLength(25, ErrorMessage = "* Title Type cannot be longer than 25 characters")]
@@ -343,7 +397,8 @@ namespace StoreFront.DATA.EF//.Metadata
     #region Writer Metadata
     public class WriterMetadata
     {
-        //public int WriterID { get; set; }
+        [Display(Name = "Writer ID")]
+        public int WriterID { get; set; }
 
         [Required(ErrorMessage = "* First Name is required")]
         [StringLength(25, ErrorMessage = "* First Name cannot be longer than 25 characters")]
