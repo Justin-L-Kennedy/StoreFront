@@ -68,13 +68,18 @@ namespace StoreFront.DATA.EF//.Metadata
     #region DiscType Metadata
     public class DiscTypeMetadata
     {
-        [Display(Name = "Disc Type")]
+        [Display(Name = "Disc Type ID")]
         public int DiscTypeID { get; set; }
 
         [Required(ErrorMessage = "* Disc Type is required")]
         [StringLength(3, ErrorMessage = "* Disc Type cannot be longer than 3 characters")]
         [Display(Name = "Disc Type")]
         public string DiscTypeName { get; set; }
+
+        [Required(ErrorMessage = "* Disc Type Description is required")]
+        [StringLength(25, ErrorMessage = "* Disc Type Description cannot be longer than 25 characters")]
+        [Display(Name = "Disc Type Description")]
+        public string DiscTypeDescription { get; set; }
     }
 
     [MetadataType(typeof(DiscTypeMetadata))]
@@ -87,7 +92,7 @@ namespace StoreFront.DATA.EF//.Metadata
     #region Genre Metadata
     public class GenreMetadata
     {
-        [Display(Name = "Genre")]
+        [Display(Name = "Genre ID")]
         public int GenreID { get; set; }
 
         [Required(ErrorMessage = "* Genre is required")]
@@ -216,7 +221,7 @@ namespace StoreFront.DATA.EF//.Metadata
         public Nullable<byte> ActorOrder { get; set; }
 
         [Required(ErrorMessage = "* Character is required")]
-        [StringLength(50, ErrorMessage = "* Character cannot be longer than 50 characters")]
+        [StringLength(100, ErrorMessage = "* Character cannot be longer than 100 characters")]
         public string Character { get; set; }
     }
 

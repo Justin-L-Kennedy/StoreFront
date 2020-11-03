@@ -1,45 +1,174 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Actor>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Actor Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    
+    <p class="row">
+        <button id="toggleActorCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="ActorCreate">
+        @Html.Partial("ActorCreate", new StoreFront.DATA.EF.Actor())
+    </div>
+    <table class="table data-table table-striped" id="ActorsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th></th>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Actor-@item.ActorID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        <a href="" class="EditLink" id="@item.ActorID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "Actors", new { id = item.ActorID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.FullName} from actors?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })
+                    </td>
+                </tr>
+            }
+        </tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ActorID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ActorID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ActorID })
-        </td>
-    </tr>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[1, "asc"]]
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#Actor-" + response.id;
+            $("#ActorsTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#ActorCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleActorCreate").click(function () {
+            $("#ActorCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#ActorCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/Actors/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#ActorCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.FirstName + '</td>' +
+                            '<td>' + foo.LastName + '</td>' +
+                            '<td>' + foo.Country + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#ActorsTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var actorID = $(this).attr('id');
+            var row = $("#Actor-" + actorID).children();
+            originalContent = {
+                ActorID: actorID,
+                FirstName: row[0].innerText,
+                LastName: row[1].innerText,
+                Country: row[2].innerText,
+            };
+            console.log(originalContent);
+            $.get("/Actors/ActorEdit/" + actorID,
+                function (data) {
+                    $("#Actor-" + actorID).replaceWith(
+                        '<tr id="Actor-' + actorID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#ActorEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/Actors/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#ActorEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.FirstName +
+                            '</td><td>' + data.LastName +
+                            '</td><td>' + data.Country +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Actor-' + data.ActorID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="Actor-' + originalContent.ActorID + '"> <td>' + originalContent.FirstName +
+                            '</td><td>' + originalContent.LastName +
+                            '</td><td>' + originalContent.Country +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Actor-' + data.ActorID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

@@ -115,6 +115,43 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        #region AJAX CRUD
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxCreate(TitleStatus titleStatus)
+        {
+            db.TitleStatuses.Add(titleStatus);
+            db.SaveChanges();
+            return Json(titleStatus);
+        }
+
+        [HttpGet]
+        public PartialViewResult TitleStatusEdit(int id)
+        {
+            TitleStatus titleStatus = db.TitleStatuses.Find(id);
+            return PartialView(titleStatus);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxEdit(TitleStatus titleStatus)
+        {
+            db.Entry(titleStatus).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(titleStatus);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult AjaxDelete(int id)
+        {
+            TitleStatus titleStatus = db.TitleStatuses.Find(id);
+            db.TitleStatuses.Remove(titleStatus);
+            db.SaveChanges();
+            string confirmMessage = string.Format("Deleted title status '{0}' from database!", titleStatus.TitleStatusName);
+            return Json(new { id = id, message = confirmMessage });
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

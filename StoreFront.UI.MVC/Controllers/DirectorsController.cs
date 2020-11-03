@@ -115,6 +115,43 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        #region AJAX CRUD
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxCreate(Director director)
+        {
+            db.Directors.Add(director);
+            db.SaveChanges();
+            return Json(director);
+        }
+
+        [HttpGet]
+        public PartialViewResult DirectorEdit(int id)
+        {
+            Director director = db.Directors.Find(id);
+            return PartialView(director);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxEdit(Director director)
+        {
+            db.Entry(director).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(director);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult AjaxDelete(int id)
+        {
+            Director director = db.Directors.Find(id);
+            db.Directors.Remove(director);
+            db.SaveChanges();
+            string confirmMessage = string.Format("Deleted director '{0}' from database!", director.FullName);
+            return Json(new { id = id, message = confirmMessage });
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

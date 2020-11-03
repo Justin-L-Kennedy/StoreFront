@@ -52,9 +52,9 @@
                     <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o"></i> My Account</a>
-                        <div class="dropdown-menu" style="background-color: darkgray">
+                        <ul class="dropdown-menu" style="background-color: darkgray">
                             @Html.Partial("_LoginPartial")
-                        </div>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -78,15 +78,18 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
+                            @using (Html.BeginForm("Index", "MoviesTV", FormMethod.Get))
+                            {
                             <form>
                                 <select class="input-select">
                                     <option value="0">All Categories</option>
                                     <option value="1">Category 01</option>
-                                    <option value="1">Category 02</option>
+                                    <option value="2">Category 02</option>
                                 </select>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">Search</button>
+                                @Html.TextBox("SearchString", ViewBag.SearchString as string, new { @class = "input", @placeholder = "Search here" })
+                                <input type="submit" class="search-btn" value="Search" />
                             </form>
+                            }
                         </div>
                     </div>
                     <!-- /SEARCH BAR -->
@@ -168,7 +171,7 @@
         <!-- container -->
         <div class="container">
             <!-- responsive-nav -->
-            <div id="responsive-nav">
+            <ul id="responsive-nav">
                 <!-- NAV -->
                 @{
                     var currentController = ViewContext.RouteData.Values["controller"] ?? "Home";
@@ -179,11 +182,38 @@
                 <ul class="main-nav nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = currentRoute == "home-index" ? "active" : "" })</li>
                     <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV", null, new { @class = currentRoute == "moviestv-index" ? "active" : "" })</li>
-                    <li><a href="#">Categories</a></li>
-                    <li><a href="#">Laptops</a></li>
-                    <li><a href="#">Smartphones</a></li>
-                    <li><a href="#">Cameras</a></li>
-                    <li><a href="#">Accessories</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Format</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("DVD", "Index", "MoviesTV", new { searchString = "DVD" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Blu-ray", "Index", "MoviesTV", new { searchString = "Blu-ray" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("4K Ultra HD", "Index", "MoviesTV", new { searchString = "4K Ultra HD" }, new { @class = "dropdown-item" })</li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Genre</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Action & Adventure", "Index", "MoviesTV", new { searchString = "Action & Adventure" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Animation", "Index", "MoviesTV", new { searchString = "Animation" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Anime", "Index", "MoviesTV", new { searchString = "Anime" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Comedy", "Index", "MoviesTV", new { searchString = "Comedy" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Crime", "Index", "MoviesTV", new { searchString = "Crime" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Documentary", "Index", "MoviesTV", new { searchString = "Documentary" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Drama", "Index", "MoviesTV", new { searchString = "Drama" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Fantasy", "Index", "MoviesTV", new { searchString = "Fantasy" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Foreign Language", "Index", "MoviesTV", new { searchString = "Foreign Language" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Horror", "Index", "MoviesTV", new { searchString = "Horror" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Kids & Family", "Index", "MoviesTV", new { searchString = "Kids &amp; Family" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Musicals & Concerts", "Index", "MoviesTV", new { searchString = "Musicals & Concerts" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Romance", "Index", "MoviesTV", new { searchString = "Romance" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Science Fiction", "Index", "MoviesTV", new { searchString = "Science Fiction" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Sports", "Index", "MoviesTV", new { searchString = "Sports" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Thriller", "Index", "MoviesTV", new { searchString = "Thriller" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Western", "Index", "MoviesTV", new { searchString = "Western" }, new { @class = "dropdown-item" })</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("About Us", "About", "Home", null, new { @class = currentRoute == "home-about" ? "active" : "" })</li>
+                    <li>@Html.ActionLink("Contact Us", "Contact", "Home", null, new { @class = currentRoute == "home-contact" ? "active" : "" })</li>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -241,7 +271,7 @@
                     <div class="col-md-3 col-xs-6">
                         <div class="footer">
                             <h3 class="footer-title">About Us</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                            <p>Justin's Reel House offers a wide range of movies and television shows to delight everyone from the couch potato to the cinephile.</p>
                             <ul class="footer-links">
                                 <li><a href="https://www.google.com/maps/place/Kansas+City+Metropolitan+Area/@("@")39.0512504,-94.8531702,10z/data=!4m5!3m4!1s0x87c0e5f7a6c7ad99:0x2d3967c6e6fea83a!8m2!3d38.97887!4d-94.645035"><i class="fa fa-map-marker"></i>Kansas City Metropolitan</a></li>
                                 <li><a href="+01-913-638-9056"><i class="fa fa-phone"></i>913-638-9056</a></li>
@@ -254,11 +284,11 @@
                         <div class="footer">
                             <h3 class="footer-title">Categories</h3>
                             <ul class="footer-links">
-                                <li><a href="#">Hot deals</a></li>
-                                <li><a href="#">Laptops</a></li>
-                                <li><a href="#">Smartphones</a></li>
-                                <li><a href="#">Cameras</a></li>
-                                <li><a href="#">Accessories</a></li>
+                                <li>@Html.ActionLink("Movies", "Index", "MoviesTV", new { searchString = "Movie" }, null)</li>
+                                <li>@Html.ActionLink("Television Shows", "Index", "MoviesTV", new { searchString = "Television Show" }, null)</li>
+                                <li>@Html.ActionLink("DVD", "Index", "MoviesTV", new { searchString = "DVD" }, null)</li>
+                                <li>@Html.ActionLink("Blu-ray", "Index", "MoviesTV", new { searchString = "Blu-ray" }, null)</li>
+                                <li>@Html.ActionLink("4K Ultra HD", "Index", "MoviesTV", new { searchString = "4K Ultra HD" }, null)</li>
                             </ul>
                         </div>
                     </div>

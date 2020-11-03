@@ -1,45 +1,180 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Studio>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Studio Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.StudioName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th></th>
-    </tr>
+    <p class="row">
+        <button id="toggleStudioCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="StudioCreate">
+        @Html.Partial("StudioCreate", new StoreFront.DATA.EF.Studio())
+    </div>
+    <table class="table data-table table-striped" id="StudiosTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudioName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StudioName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.StudioID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.StudioID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.StudioID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Studio-@item.StudioID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudioName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        <a href="" class="EditLink" id="@item.StudioID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "Studios", new { id = item.StudioID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.StudioName} from studios?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[0, "asc"]]
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#Studio-" + response.id;
+            $("#StudiosTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#StudioCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleStudioCreate").click(function () {
+            $("#StudioCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#StudioCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/Studios/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#StudioCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.StudioName + '</td>' +
+                            '<td>' + foo.Country + '</td>' +
+                            '<td>' + (foo.IsActive ? '<input type="checkbox" disabled="disabled" checked="checked"/>' : '<input type="checkbox" disabled="disabled"/>') + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#StudiosTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var studioID = $(this).attr('id');
+            var row = $("#Studio-" + studioID).children();
+            originalContent = {
+                StudioID: studioID,
+                StudioName: row[0].innerText,
+                Country: row[1].innerText,
+                IsActive: row[2].firstElementChild.checked
+            };
+            console.log(originalContent);
+            $.get("/Studios/StudioEdit/" + studioID,
+                function (data) {
+                    $("#Studio-" + studioID).replaceWith(
+                        '<tr id="Studio-' + studioID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#StudioEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/Studios/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#StudioEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.StudioName +
+                            '</td><td>' + data.Country +
+                            '</td><td>' +
+                            (data.IsActive
+                                ? '<input type="checkbox" disabled="disabled" checked="checked" />'
+                                : '<input type="checkbox" disabled="disabled" />') +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Studio-' + data.StudioID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="Studio-' + originalContent.StudioID + '"> <td>' + originalContent.StudioName +
+                            '</td><td>' + originalContent.Country +
+                            '</td><td>' +
+                            (originalContent.IsActive
+                                ? '<input type="checkbox" disabled="disabled" checked="checked" />'
+                                : '<input type="checkbox" disabled="disabled" />') +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Studio-' + data.StudioID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

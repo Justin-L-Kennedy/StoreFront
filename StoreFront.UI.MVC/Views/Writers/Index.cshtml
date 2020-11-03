@@ -1,45 +1,174 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Writer>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Writer Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th></th>
-    </tr>
+    <p class="row">
+        <button id="toggleWriterCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="WriterCreate">
+        @Html.Partial("WriterCreate", new StoreFront.DATA.EF.Writer())
+    </div>
+    <table class="table data-table table-striped" id="WritersTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.WriterID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.WriterID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.WriterID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Writer-@item.WriterID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        <a href="" class="EditLink" id="@item.WriterID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "Writers", new { id = item.WriterID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.FullName} from writers?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[1, "asc"]]
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#Writer-" + response.id;
+            $("#WritersTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#WriterCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleWriterCreate").click(function () {
+            $("#WriterCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#WriterCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/Writers/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#WriterCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.FirstName + '</td>' +
+                            '<td>' + foo.LastName + '</td>' +
+                            '<td>' + foo.Country + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#WritersTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var writerID = $(this).attr('id');
+            var row = $("#Writer-" + writerID).children();
+            originalContent = {
+                WriterID: writerID,
+                FirstName: row[0].innerText,
+                LastName: row[1].innerText,
+                Country: row[2].innerText,
+            };
+            console.log(originalContent);
+            $.get("/Writers/WriterEdit/" + writerID,
+                function (data) {
+                    $("#Writer-" + writerID).replaceWith(
+                        '<tr id="Writer-' + writerID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#WriterEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/Writers/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#WriterEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.FirstName +
+                            '</td><td>' + data.LastName +
+                            '</td><td>' + data.Country +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Writer-' + data.WriterID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="Writer-' + originalContent.WriterID + '"> <td>' + originalContent.FirstName +
+                            '</td><td>' + originalContent.LastName +
+                            '</td><td>' + originalContent.Country +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Writer-' + data.WriterID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

@@ -115,6 +115,43 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        #region AJAX CRUD
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxCreate(Genre genre)
+        {
+            db.Genres.Add(genre);
+            db.SaveChanges();
+            return Json(genre);
+        }
+
+        [HttpGet]
+        public PartialViewResult GenreEdit(int id)
+        {
+            Genre genre = db.Genres.Find(id);
+            return PartialView(genre);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxEdit(Genre genre)
+        {
+            db.Entry(genre).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(genre);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult AjaxDelete(int id)
+        {
+            Genre genre = db.Genres.Find(id);
+            db.Genres.Remove(genre);
+            db.SaveChanges();
+            string confirmMessage = string.Format("Deleted genre '{0}' from database!", genre.GenreName);
+            return Json(new { id = id, message = confirmMessage });
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

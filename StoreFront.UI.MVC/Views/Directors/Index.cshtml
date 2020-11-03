@@ -1,45 +1,174 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Director>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Director Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th></th>
-    </tr>
+    <p class="row">
+        <button id="toggleDirectorCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="DirectorCreate">
+        @Html.Partial("DirectorCreate", new StoreFront.DATA.EF.Director())
+    </div>
+    <table class="table data-table table-striped" id="DirectorsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.DirectorID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.DirectorID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.DirectorID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Director-@item.DirectorID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        <a href="" class="EditLink" id="@item.DirectorID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "Directors", new { id = item.DirectorID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.FullName} from directors?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[1, "asc"]]
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#Director-" + response.id;
+            $("#DirectorsTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#DirectorCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleDirectorCreate").click(function () {
+            $("#DirectorCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#DirectorCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/Directors/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#DirectorCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.FirstName + '</td>' +
+                            '<td>' + foo.LastName + '</td>' +
+                            '<td>' + foo.Country + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#DirectorsTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var directorID = $(this).attr('id');
+            var row = $("#Director-" + directorID).children();
+            originalContent = {
+                DirectorID: directorID,
+                FirstName: row[0].innerText,
+                LastName: row[1].innerText,
+                Country: row[2].innerText,
+            };
+            console.log(originalContent);
+            $.get("/Directors/DirectorEdit/" + directorID,
+                function (data) {
+                    $("#Director-" + directorID).replaceWith(
+                        '<tr id="Director-' + directorID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#DirectorEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/Directors/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#DirectorEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.FirstName +
+                            '</td><td>' + data.LastName +
+                            '</td><td>' + data.Country +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Director-' + data.DirectorID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="Director-' + originalContent.DirectorID + '"> <td>' + originalContent.FirstName +
+                            '</td><td>' + originalContent.LastName +
+                            '</td><td>' + originalContent.Country +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Director-' + data.DirectorID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

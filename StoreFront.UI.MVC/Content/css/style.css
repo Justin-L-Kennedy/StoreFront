@@ -656,6 +656,14 @@ textarea.input {
   width: 100%;
 }
 
+.main-nav>li>ul>li>a {
+    color: #2B2D42;
+}
+
+.main-nav>li>ul>li>a:hover {
+    color: #D10024;
+}
+
 .header-ctn li.nav-toggle {
   display: none;
 }
@@ -1330,7 +1338,7 @@ textarea.input {
 
 .store-grid li.active {
   background-color: #D10024;
-  border-color: #D10024;
+  border-color: #000000;
   color: #FFF;
   cursor: default;
 }

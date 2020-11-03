@@ -1,51 +1,189 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.MovieTVActor>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Movie/TV Actor Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.MoviesTV.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Actor.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Character)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActorOrder)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    @*<p class="row">
+        <button id="toggleMovieTVActorCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="MovieTVActorCreate">
+        @Html.Partial("MovieTVActorCreate", new StoreFront.DATA.EF.MovieTVActor())
+    </div>*@
+    <table class="table data-table table-striped" id="MovieTVActorsTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MoviesTV.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Actor.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActorOrder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Character)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MoviesTV.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Actor.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Character)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActorOrder)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MovieTVActorID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MovieTVActorID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MovieTVActorID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="MovieTVActor-@item.MovieTVActorID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoviesTV.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Actor.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActorOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Character)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVActorID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVActorID })
+                        @*<a href="" class="EditLink" id="@item.MovieTVActorID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "MovieTVActors", new { id = item.MovieTVActorID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.Actor.FullName} from {item.MoviesTV.Title}?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[0, "asc"]]
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#MovieTVActor-" + response.id;
+            $("#MovieTVActorsTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#MovieTVActorCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleMovieTVActorCreate").click(function () {
+            $("#MovieTVActorCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#MovieTVActorCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/MovieTVActors/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#MovieTVActorCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.MoviesTV.Title + '</td>' +
+                            '<td>' + foo.Actor.FullName + '</td>' +
+                            '<td>' + foo.ActorOrder + '</td>' +
+                            '<td>' + foo.Character + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#MovieTVActorsTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var movieTVActorID = $(this).attr('id');
+            var row = $("#MovieTVActor-" + movieTVActorID).children();
+            originalContent = {
+                MovieTVActorID: movieTVActorID,
+                Title: row[0].innerText,
+                FullName: row[1].innerText,
+                ActorOrder: row[2].innerText,
+                Character: row[3].innerText,
+            };
+            console.log(originalContent);
+            $.get("/MovieTVActors/MovieTVActorEdit/" + movieTVActorID,
+                function (data) {
+                    $("#MovieTVActor-" + movieTVActorID).replaceWith(
+                        '<tr id="MovieTVActor-' + movieTVActorID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#MovieTVActorEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/MovieTVActors/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#MovieTVActorEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.Title +
+                            '</td><td>' + data.FullName +
+                            '</td><td>' + data.ActorOrder +
+                            '</td><td>' + data.Character +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#MovieTVActor-' + data.MovieTVActorID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="MovieTVActor-' + originalContent.MovieTVActorID + '"> <td>' + originalContent.Title +
+                            '</td><td>' + originalContent.FullName +
+                            '</td><td>' + originalContent.ActorOrder +
+                            '</td><td>' + originalContent.Character +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#MovieTVActor-' + data.MovieTVActorID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

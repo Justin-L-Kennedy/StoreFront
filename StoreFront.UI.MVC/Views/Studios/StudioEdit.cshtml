@@ -1,0 +1,31 @@
+﻿@model StoreFront.DATA.EF.Studio
+
+@using (Html.BeginForm("AjaxEdit", "Studios", FormMethod.Post, new { id = "StudioEditForm" }))
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            @Html.HiddenFor(model => model.StudioID)
+            <td>
+                @Html.EditorFor(model => model.StudioName, new { htmlAttributes = new { @class = "form-control", style = "width:305px; margin-left:-10px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.StudioName, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", style = "width:288px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger", style = "margin-right:183px;" })
+            </td>
+            <td>
+                <input type="button" id="saveUpdate" value="Update Studio" class="btn btn-danger" />
+            </td>
+        </tr>
+    </table>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

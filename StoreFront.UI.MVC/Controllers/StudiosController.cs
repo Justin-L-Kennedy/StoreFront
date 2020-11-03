@@ -115,6 +115,43 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        #region AJAX CRUD
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxCreate(Studio studio)
+        {
+            db.Studios.Add(studio);
+            db.SaveChanges();
+            return Json(studio);
+        }
+
+        [HttpGet]
+        public PartialViewResult StudioEdit(int id)
+        {
+            Studio studio = db.Studios.Find(id);
+            return PartialView(studio);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxEdit(Studio studio)
+        {
+            db.Entry(studio).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(studio);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult AjaxDelete(int id)
+        {
+            Studio studio = db.Studios.Find(id);
+            db.Studios.Remove(studio);
+            db.SaveChanges();
+            string confirmMessage = string.Format("Deleted studio '{0}' from database!", studio.StudioName);
+            return Json(new { id = id, message = confirmMessage });
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

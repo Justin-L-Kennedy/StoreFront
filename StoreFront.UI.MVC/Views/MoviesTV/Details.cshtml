@@ -4,144 +4,599 @@
     ViewBag.Title = $"{Model.Title}";
 }
 
-<h2>@ViewBag.Title</h2>
-
-<div class="col-md-6">
-    <img src="~/Content/img/MoviesTV/@Model.TitleImage" alt="Title cover" title="@Model.Title" />
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
+                    <li>@Html.DisplayFor(model => model.DiscType.DiscTypeDescription)</li>
+                    <li class="active">@ViewBag.Title</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
 </div>
-<div class="col-md-6">
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UPC)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UPC)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Runtime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Runtime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UnitsSold)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UnitsSold)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsSiteFeature)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsSiteFeature)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsOnSaleFeature)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsOnSaleFeature)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Genre.GenreName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Genre.GenreName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Studio.StudioName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Studio.StudioName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TitleStatus.TitleStatusName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TitleStatus.TitleStatusName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DiscType.DiscTypeName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DiscType.DiscTypeName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TitleType.TitleTypeName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TitleType.TitleTypeName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RegionCode.RegionCodeInfo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MPAARating.Rating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MPAARating.Rating)
-        </dd>
-
-    </dl>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        <img src="~/Content/img/MoviesTV/@Model.TitleImage" alt="Title Cover" title="@Model.Title">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product main img -->
+            <!-- Product thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div class="product-preview">
+                        <img src="~/Content/img/MoviesTV/t_@Model.TitleImage" alt="Title Cover Thumbnail" title="@Model.Title">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product thumb imgs -->
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name">@Html.DisplayFor(model => model.Title)</h2>
+                    <ul>
+                        <li><strong>@Html.DisplayNameFor(model => model.MPAARating.Rating): </strong>@Html.DisplayFor(model => model.MPAARating.Rating)</li>
+                        <li><strong>@Html.DisplayNameFor(model => model.Runtime): </strong>@Html.DisplayFor(model => model.Runtime) minutes</li>
+                    </ul>
+                    <div>
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                    </div>
+                    <div>
+                        <h3 class="product-price">@Html.DisplayFor(model => model.SalePrice) @if (@Model.IsOnSaleFeature == true)
+                            {<del class="product-old-price">@Html.DisplayFor(model => model.Price)</del>}
+                        </h3>
+                        <span class="product-available">@Html.DisplayFor(model => model.TitleStatus.TitleStatusName)</span>
+                    </div>
+                    <p>@Html.DisplayFor(model => model.Description)</p>
+                    <div class="add-to-cart">
+                        <div class="qty-label">
+                            Qty
+                            <div class="input-number">
+                                <input type="number">
+                                <span class="qty-up">+</span>
+                                <span class="qty-down">-</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                    <ul class="product-btns">
+                        <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                        <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                    </ul>
+                    <ul class="product-links">
+                        <li>Category:</li>
+                        <li><a href="#">@Html.DisplayFor(model => model.DiscType.DiscTypeDescription)</a></li>
+                        <li><a href="#">@Html.DisplayFor(model => model.Genre.GenreName)</a></li>
+                        <li><a href="#">@Html.DisplayFor(model => model.TitleType.TitleTypeName)</a></li>
+                    </ul>
+                    <ul class="product-links">
+                        <li>Share:</li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /Product details -->
+            <!-- Product tab -->
+            <div class="col-md-12">
+                <div id="product-tab">
+                    <!-- product tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                    </ul>
+                    <!-- /product tab nav -->
+                    <!-- product tab content -->
+                    <div class="tab-content">
+                        <!-- tab1  -->
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>@Html.DisplayFor(model => model.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
+                        <!-- tab2  -->
+                        <div id="tab2" class="tab-pane fade in">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul>
+                                        <li><strong>@Html.DisplayNameFor(model => model.DiscType.DiscTypeName): </strong>@Html.DisplayFor(model => model.DiscType.DiscTypeName)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.Genre.GenreName): </strong>@Html.DisplayFor(model => model.Genre.GenreName)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.TitleType.TitleTypeName): </strong>@Html.DisplayFor(model => model.TitleType.TitleTypeName)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.Studio.StudioName): </strong>@Html.DisplayFor(model => model.Studio.StudioName)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.ReleaseDate): </strong>@Html.DisplayFor(model => model.ReleaseDate)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.MPAARating.Rating): </strong>@Html.DisplayFor(model => model.MPAARating.Rating)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab2  -->
+                        <!-- tab3  -->
+                        <div id="tab3" class="tab-pane fade in">
+                            <div class="row">
+                                <!-- Rating -->
+                                <div class="col-md-3">
+                                    <div id="rating">
+                                        <div class="rating-avg">
+                                            <span>4.5</span>
+                                            <div class="rating-stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                        <ul class="rating">
+                                            <li>
+                                                <div class="rating-stars">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <div class="rating-progress">
+                                                    <div style="width: 80%;"></div>
+                                                </div>
+                                                <span class="sum">3</span>
+                                            </li>
+                                            <li>
+                                                <div class="rating-stars">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="rating-progress">
+                                                    <div style="width: 60%;"></div>
+                                                </div>
+                                                <span class="sum">2</span>
+                                            </li>
+                                            <li>
+                                                <div class="rating-stars">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="rating-progress">
+                                                    <div></div>
+                                                </div>
+                                                <span class="sum">0</span>
+                                            </li>
+                                            <li>
+                                                <div class="rating-stars">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="rating-progress">
+                                                    <div></div>
+                                                </div>
+                                                <span class="sum">0</span>
+                                            </li>
+                                            <li>
+                                                <div class="rating-stars">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="rating-progress">
+                                                    <div></div>
+                                                </div>
+                                                <span class="sum">0</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /Rating -->
+                                <!-- Reviews -->
+                                <div class="col-md-6">
+                                    <div id="reviews">
+                                        <ul class="reviews">
+                                            <li>
+                                                <div class="review-heading">
+                                                    <h5 class="name">John</h5>
+                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
+                                                    <div class="review-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o empty"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="review-heading">
+                                                    <h5 class="name">John</h5>
+                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
+                                                    <div class="review-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o empty"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="review-heading">
+                                                    <h5 class="name">John</h5>
+                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
+                                                    <div class="review-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o empty"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="reviews-pagination">
+                                            <li class="active">1</li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /Reviews -->
+                                <!-- Review Form -->
+                                <div class="col-md-3">
+                                    <div id="review-form">
+                                        <form class="review-form">
+                                            <input class="input" type="text" placeholder="Your Name">
+                                            <input class="input" type="email" placeholder="Your Email">
+                                            <textarea class="input" placeholder="Your Review"></textarea>
+                                            <div class="input-rating">
+                                                <span>Your Rating: </span>
+                                                <div class="stars">
+                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                                </div>
+                                            </div>
+                                            <button class="primary-btn">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- /Review Form -->
+                            </div>
+                        </div>
+                        <!-- /tab3  -->
+                    </div>
+                    <!-- /product tab content  -->
+                </div>
+            </div>
+            <!-- /product tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieTVID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<!-- /SECTION -->
+<!-- Section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 class="title">Related Products</h3>
+                </div>
+            </div>
+            <!-- product -->
+            <div class="col-md-3 col-xs-6">
+                <div class="product">
+                    <div class="product-img">
+                        <img src="./img/product01.png" alt="">
+                        <div class="product-label">
+                            <span class="sale">-30%</span>
+                        </div>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-category">Category</p>
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        <div class="product-rating">
+                        </div>
+                        <div class="product-btns">
+                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                        </div>
+                    </div>
+                    <div class="add-to-cart">
+                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /product -->
+            <!-- product -->
+            <div class="col-md-3 col-xs-6">
+                <div class="product">
+                    <div class="product-img">
+                        <img src="./img/product02.png" alt="">
+                        <div class="product-label">
+                            <span class="new">NEW</span>
+                        </div>
+                    </div>
+                    <div class="product-body">
+                        <p class="product-category">Category</p>
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="product-btns">
+                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                        </div>
+                    </div>
+                    <div class="add-to-cart">
+                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /product -->
+            <div class="clearfix visible-sm visible-xs"></div>
+            <!-- product -->
+            <div class="col-md-3 col-xs-6">
+                <div class="product">
+                    <div class="product-img">
+                        <img src="./img/product03.png" alt="">
+                    </div>
+                    <div class="product-body">
+                        <p class="product-category">Category</p>
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="product-btns">
+                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                        </div>
+                    </div>
+                    <div class="add-to-cart">
+                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /product -->
+            <!-- product -->
+            <div class="col-md-3 col-xs-6">
+                <div class="product">
+                    <div class="product-img">
+                        <img src="./img/product04.png" alt="">
+                    </div>
+                    <div class="product-body">
+                        <p class="product-category">Category</p>
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        <div class="product-rating">
+                        </div>
+                        <div class="product-btns">
+                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                        </div>
+                    </div>
+                    <div class="add-to-cart">
+                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /product -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Section -->
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div class="col-md-6">
+        <img src="~/Content/img/MoviesTV/@Model.TitleImage" alt="Title cover" title="@Model.Title" />
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UPC)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UPC)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Runtime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Runtime)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UnitsSold)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UnitsSold)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReleaseDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsSiteFeature)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsSiteFeature)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsOnSaleFeature)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsOnSaleFeature)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Genre.GenreName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Genre.GenreName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Studio.StudioName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Studio.StudioName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TitleStatus.TitleStatusName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TitleStatus.TitleStatusName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DiscType.DiscTypeName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DiscType.DiscTypeName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TitleType.TitleTypeName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TitleType.TitleTypeName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RegionCode.RegionCodeInfo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MPAARating.Rating)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MPAARating.Rating)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieTVID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

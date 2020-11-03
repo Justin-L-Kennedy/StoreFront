@@ -1,33 +1,49 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.TitleType>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Title Type Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TitleTypeName)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table data-table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TitleTypeName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TitleTypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TitleTypeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TitleTypeID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TitleTypeID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TitleTypeName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.TitleTypeID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.TitleTypeID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[0, "asc"]]
+                });
+        });
+    </script>
 }
-
-</table>

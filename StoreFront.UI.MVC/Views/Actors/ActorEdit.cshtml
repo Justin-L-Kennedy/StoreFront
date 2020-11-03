@@ -1,0 +1,30 @@
+﻿@model StoreFront.DATA.EF.Actor
+
+@using (Html.BeginForm("AjaxEdit", "Actors", FormMethod.Post, new { id = "ActorEditForm" }))
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            @Html.HiddenFor(model => model.ActorID)
+            <td>
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", style = "width:275px; margin-left:-10px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", style = "width:270px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", style = "width:260px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                <input type="button" id="saveUpdate" value="Update Actor" class="btn btn-danger" />
+            </td>
+        </tr>
+    </table>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

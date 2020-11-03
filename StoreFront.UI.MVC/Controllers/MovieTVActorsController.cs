@@ -124,6 +124,45 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        //#region AJAX CRUD
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public JsonResult AjaxCreate(MovieTVActor movieTVActor)
+        //{
+        //    db.MovieTVActors.Add(movieTVActor);
+        //    db.SaveChanges();
+        //    ViewBag.ActorID = new SelectList(db.Actors, "ActorID", "FullName", movieTVActor.ActorID);
+        //    ViewBag.MovieTVID = new SelectList(db.MoviesTVs, "MovieTVID", "Title", movieTVActor.MovieTVID);
+        //    return Json(movieTVActor);
+        //}
+
+        //[HttpGet]
+        //public PartialViewResult MovieTVActorEdit(int id)
+        //{
+        //    MovieTVActor movieTVActor = db.MovieTVActors.Find(id);
+        //    return PartialView(movieTVActor);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public JsonResult AjaxEdit(MovieTVActor movieTVActor)
+        //{
+        //    db.Entry(movieTVActor).State = EntityState.Modified;
+        //    db.SaveChanges();
+        //    return Json(movieTVActor);
+        //}
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public JsonResult AjaxDelete(int id)
+        //{
+        //    MovieTVActor movieTVActor = db.MovieTVActors.Find(id);
+        //    db.MovieTVActors.Remove(movieTVActor);
+        //    db.SaveChanges();
+        //    string confirmMessage = string.Format("Deleted actor '{0}' from '{1}' database!", movieTVActor.Actor.FullName, movieTVActor.MoviesTV.Title);
+        //    return Json(new { id = id, message = confirmMessage });
+        //}
+        //#endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -29,6 +29,7 @@
           </Key>
           <Property Name="DiscTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DiscTypeName" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="DiscTypeDescription" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="Genres">
           <Key>
@@ -68,7 +69,7 @@
           <Property Name="MovieTVID" Type="int" Nullable="false" />
           <Property Name="ActorID" Type="int" Nullable="false" />
           <Property Name="ActorOrder" Type="tinyint" />
-          <Property Name="Character" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Character" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="MovieTVDirectors">
           <Key>
@@ -433,7 +434,7 @@
           <Property Name="MovieTVID" Type="Int32" Nullable="false" />
           <Property Name="ActorID" Type="Int32" Nullable="false" />
           <Property Name="ActorOrder" Type="Byte" />
-          <Property Name="Character" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Character" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Actor" Relationship="Self.FK_MovieTVActors_Actors" FromRole="MovieTVActors" ToRole="Actors" />
           <NavigationProperty Name="MoviesTV" Relationship="Self.FK_MovieTVActors_MoviesTV" FromRole="MovieTVActors" ToRole="MoviesTV" />
         </EntityType>
@@ -671,6 +672,7 @@
           <Property Name="DiscTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DiscTypeName" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="MoviesTVs" Relationship="StoreFrontModel.FK_MoviesTV_DiscTypes" FromRole="DiscType" ToRole="MoviesTV" />
+          <Property Name="DiscTypeDescription" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TitleType">
           <Key>
@@ -866,6 +868,7 @@
           <EntitySetMapping Name="DiscTypes">
             <EntityTypeMapping TypeName="StoreFrontModel.DiscType">
               <MappingFragment StoreEntitySet="DiscTypes">
+                <ScalarProperty Name="DiscTypeDescription" ColumnName="DiscTypeDescription" />
                 <ScalarProperty Name="DiscTypeName" ColumnName="DiscTypeName" />
                 <ScalarProperty Name="DiscTypeID" ColumnName="DiscTypeID" />
               </MappingFragment>

@@ -1,39 +1,164 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.TitleStatus>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Title Status Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TitleStatusName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Notes)
-        </th>
-        <th></th>
-    </tr>
+    <p class="row">
+        <button id="toggleTitleStatusCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="TitleStatusCreate">
+        @Html.Partial("TitleStatusCreate", new StoreFront.DATA.EF.TitleStatus())
+    </div>
+    <table class="table data-table table-striped" id="TitleStatusTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TitleStatusName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TitleStatusName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TitleStatusID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TitleStatusID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TitleStatusID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="TitleStatus-@item.TitleStatusID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TitleStatusName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        <a href="" class="EditLink" id="@item.TitleStatusID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "TitleStatus", new { id = item.TitleStatusID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.TitleStatusName} from title statuses?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[0, "asc"]]
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#TitleStatus-" + response.id;
+            $("#TitleStatusTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#TitleStatusCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleTitleStatusCreate").click(function () {
+            $("#TitleStatusCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#TitleStatusCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/TitleStatus/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#TitleStatusCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.TitleStatusName + '</td>' +
+                            '<td>' + foo.Notes + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#TitleStatusesTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var titleStatusID = $(this).attr('id');
+            var row = $("#TitleStatus-" + titleStatusID).children();
+            originalContent = {
+                TitleStatusID: titleStatusID,
+                TitleStatusName: row[0].innerText,
+                Notes: row[1].innerText,
+            };
+            console.log(originalContent);
+            $.get("/TitleStatus/TitleStatusEdit/" + titleStatusID,
+                function (data) {
+                    $("#TitleStatus-" + titleStatusID).replaceWith(
+                        '<tr id="TitleStatus-' + titleStatusID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#TitleStatusEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/TitleStatus/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#TitleStatusEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.TitleStatusName +
+                            '</td><td>' + data.Notes +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#TitleStatus-' + data.TitleStatusID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="TitleStatus-' + originalContent.TitleStatusID + '"> <td>' + originalContent.TitleStatusName +
+                            '</td><td>' + originalContent.Notes +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#TitleStatus-' + data.TitleStatusID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

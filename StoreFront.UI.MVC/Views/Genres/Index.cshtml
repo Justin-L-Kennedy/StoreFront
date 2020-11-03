@@ -1,33 +1,155 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Genre>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Genre Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.GenreName)
-        </th>
-        <th></th>
-    </tr>
+    <p class="row">
+        <button id="toggleGenreCreate" class="btn btn-danger text-right pull-left">Add New</button>
+    </p>
+    <div id="GenreCreate">
+        @Html.Partial("GenreCreate", new StoreFront.DATA.EF.Genre())
+    </div>
+    <table class="table data-table table-striped" id="GenresTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.GenreName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.GenreName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GenreID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GenreID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GenreID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="Genre-@item.GenreID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GenreName)
+                    </td>
+                    <td>
+                        <a href="" class="EditLink" id="@item.GenreID">Edit</a> |
+                        @Ajax.ActionLink("Delete", "AjaxDelete", "Genres", new { id = item.GenreID },
+                            new AjaxOptions {
+                                HttpMethod = "POST",
+                                Confirm = $"Are you sure you want to delete {item.GenreName} from genres?",
+                                OnSuccess = "deleteConfirmed",
+                                OnFailure = "deleteFailed"
+                            })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[0, "asc"]],
+                "pageLength": 25
+                });
+        });
+
+        //****** AJAX DELETE ******//
+        function deleteConfirmed(response, status, data) {
+            //remove the row from the table onscreen
+            var rowId = "#Genre-" + response.id;
+            $("#GenresTable").find(rowId).remove();
+
+            //display a status message (use AJAX response's message property)
+            $("#MessageContent").html("<div class='alert alert-success'>" + response.message + "</div>");
+        }
+        function deleteFailed(response, status, data) {
+            //display a status message
+            $("#MessageContent").html("<div class='alert alert-danger'>Delete unsuccessful. Please try again.</div>");
+        }
+
+        //****** AJAX CREATE ******//
+        $("#GenreCreate").hide(); //starts us out with the create form being hidden
+        $("#toggleGenreCreate").click(function () {
+            $("#GenreCreate").toggle(); //flips the element between being shown or hidden from the user
+        }); //end of click function
+
+        $("#GenreCreateForm").submit(function (e) {
+            var formData = $(this).serializeArray(); //serialization is the process of turning information in a certain language (C#) into a JSON format
+            console.log(formData);
+            e.preventDefault(); //keeps the default functionality (page reload) from happening
+            $.ajax({
+                url: "/Genres/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $("#MessageContent").html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (foo) {
+                    $("#MessageContent").html("<div class='alert alert-success'>Record added!</div>");
+                    $("#GenreCreateForm")[0].reset();
+                    $(function () {
+                        var row = '<tr><td>' + foo.GenreName + '</td>' +
+                            '<td>Refresh to view options</td></tr>';
+                        $("#GenresTable").append(row);
+                    });
+                }
+            });
+        });
+
+        //****** AJAX EDIT ******
+        var originalContent = null;
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var genreID = $(this).attr('id');
+            var row = $("#Genre-" + genreID).children();
+            originalContent = {
+                GenreID: genreID,
+                GenreName: row[0].innerText,
+            };
+            console.log(originalContent);
+            $.get("/Genres/GenreEdit/" + genreID,
+                function (data) {
+                    $("#Genre-" + genreID).replaceWith(
+                        '<tr id="Genre-' + genreID + '"><td colspan="5">' + data + '</td></tr>'
+                    );
+                });
+        });
+
+        $(document).on("click", "#saveUpdate", function () {
+            var formData = $("#GenreEditForm").serializeArray();
+
+            $('#MessageContent').html("<div class='alert alert-info'>Please Wait...</div>");
+
+            $.ajax({
+                url: "/Genres/AjaxEdit",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                    $('#GenreEditForm')[0].reset();
+
+                    $(function () {
+                        var row = '<tr><td>' + data.GenreName +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Genre-' + data.GenreID).replaceWith(row);
+                    });
+                },
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the site administrator.</div>");
+                    $(function () {
+                        var row = '<tr id="Genre-' + originalContent.GenreID + '"> <td>' + originalContent.GenreName +
+                            '</td><td>Refresh to view options</td></tr>';
+
+                        $('#Genre-' + data.GenreID).replaceWith(row);
+                    });
+                }
+            });
+        });
+    </script>
 }
-
-</table>

@@ -1,0 +1,30 @@
+﻿@model StoreFront.DATA.EF.Director
+
+@using (Html.BeginForm("AjaxEdit", "Directors", FormMethod.Post, new { id = "DirectorEditForm" }))
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            @Html.HiddenFor(model => model.DirectorID)
+            <td>
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", style = "width:275px; margin-left:-10px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", style = "width:270px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", style = "width:260px; margin-right:10px;" } })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                <input type="button" id="saveUpdate" value="Update Director" class="btn btn-danger" />
+            </td>
+        </tr>
+    </table>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

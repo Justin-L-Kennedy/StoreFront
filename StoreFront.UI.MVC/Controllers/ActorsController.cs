@@ -115,6 +115,43 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index");
         }
 
+        #region AJAX CRUD
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxCreate(Actor actor)
+        {
+            db.Actors.Add(actor);
+            db.SaveChanges();
+            return Json(actor);
+        }
+
+        [HttpGet]
+        public PartialViewResult ActorEdit(int id)
+        {
+            Actor actor = db.Actors.Find(id);
+            return PartialView(actor);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxEdit(Actor actor)
+        {
+            db.Entry(actor).State = EntityState.Modified;
+            db.SaveChanges();
+            return Json(actor);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult AjaxDelete(int id)
+        {
+            Actor actor = db.Actors.Find(id);
+            db.Actors.Remove(actor);
+            db.SaveChanges();
+            string confirmMessage = string.Format("Deleted actor '{0}' from database!", actor.FullName);
+            return Json(new { id = id, message = confirmMessage });
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

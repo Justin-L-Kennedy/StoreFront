@@ -1,45 +1,61 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.MovieTVWriter>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Movie/TV Writer Index";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.MoviesTV.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Writer.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WriterOrder)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table data-table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MoviesTV.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Writer.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WriterOrder)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MoviesTV.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Writer.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WriterOrder)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MovieTVWriterID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MovieTVWriterID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MovieTVWriterID })
-        </td>
-    </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoviesTV.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Writer.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WriterOrder)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVWriterID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVWriterID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".data-table").DataTable({
+                "order": [[0, "asc"]]
+                });
+        });
+    </script>
 }
-
-</table>

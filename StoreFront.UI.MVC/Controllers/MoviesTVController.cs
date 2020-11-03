@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using StoreFront.DATA.EF;
 using StoreFront.UI.MVC.Utilities; //gives us access to the ImageService.cs
 using StoreFront.UI.MVC.Models; //gives us access to the CartItemViewModel
+using PagedList;
 
 namespace StoreFront.UI.MVC.Controllers
 {
@@ -18,10 +19,83 @@ namespace StoreFront.UI.MVC.Controllers
         private StoreFrontEntities db = new StoreFrontEntities();
 
         // GET: MoviesTV
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string currentFilter, string sortOrder, string movieTVSort, int? page, int? PageSize)
         {
-            var moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating);
-            return View(moviesTVs.ToList());
+            List<MoviesTV> moviesTVs = new List<MoviesTV>();
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            #region Dropdown List for Sorting
+            ViewBag.movieTVSort = new List<SelectListItem>()
+            {
+                new SelectListItem { Text = "", Selected = true},
+                new SelectListItem { Text = "Alphabetical: A-Z", Value = "AlphaAZ" },
+                new SelectListItem { Text = "Alphabetical: Z-A", Value = "AlphaZA" },
+                new SelectListItem { Text = "Price: Low to High", Value = "PriceAsc" },
+                new SelectListItem { Text = "Price: High to Low", Value = "PriceDesc" },
+            };
+            switch (movieTVSort)
+            {
+                case "AlphaAZ":
+                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderBy(s => s.Title).ToList();
+                    break;
+                case "AlphaZA":
+                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Title).ToList();
+                    break;
+                case "PriceAsc":
+                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderBy(s => s.Price).ToList();
+                    break;
+                case "PriceDesc":
+                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Price).ToList();
+                    break;
+                default:
+                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType.DiscTypeDescription).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).ToList();
+                    break;
+            }
+            #endregion
+
+            #region Dropdown List for Page Size
+            int count = db.MoviesTVs.Count();
+            ViewBag.PageSize = new List<SelectListItem>()
+            {
+                new SelectListItem { Text = "3", Value = "3", Selected = true },
+                new SelectListItem { Text = "6", Value = "6" },
+                new SelectListItem { Text = "9", Value = "9" },
+                new SelectListItem { Text = "12", Value = "12" },
+                new SelectListItem { Text = "All", Value = count.ToString() }
+            };
+            int pageNumber = (page ?? 1);
+            int pageSize = (PageSize ?? 3);
+            ViewBag.psize = pageSize;
+            #endregion
+
+            #region Search
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                moviesTVs = (
+                    from m in moviesTVs
+                    where m.Title.ToLower().Contains(searchString.ToLower()) ||
+                    m.Description.ToLower().Contains(searchString.ToLower()) ||
+                    m.DiscType.DiscTypeName.ToLower().Contains(searchString.ToLower()) ||
+                    m.DiscType.DiscTypeDescription.ToLower().Contains(searchString.ToLower()) ||
+                    m.Genre.GenreName.ToLower().Contains(searchString.ToLower()) ||
+                    m.Studio.StudioName.ToLower().Contains(searchString.ToLower()) ||
+                    m.TitleType.TitleTypeName.ToLower().Contains(searchString.ToLower())
+                    select m
+                    ).ToList();
+                ViewBag.SearchString = searchString;
+            }
+            #endregion
+
+            return View(moviesTVs.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: MoviesTV/Details/5

@@ -20,6 +20,7 @@ namespace StoreFront.UI.MVC
 
             bundles.Add(new ScriptBundle("~/bundles/template").Include(
                 "~/Content/js/jquery.min.js",
+                "~/Scripts/jquery.dataTables.min.js",
                 "~/Content/js/bootstrap.min.js",
                 "~/Content/js/slick.min.js",
                 "~/Content/js/nouislider.min.js",
@@ -32,6 +33,8 @@ namespace StoreFront.UI.MVC
                 "~/Content/css/slick-theme.css",
                 "~/Content/css/nouislider.min.css",
                 "~/Content/css/font-awesome.min.css",
+                "~/Content/css/jquery.dataTables.min.css",
+                "~/Content/PagedList.css",
                 "~/Content/css/style.css"));
         }
     }
