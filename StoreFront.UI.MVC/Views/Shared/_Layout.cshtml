@@ -49,9 +49,8 @@
                     <li><a href="https://www.google.com/maps/place/Kansas+City+Metropolitan+Area/@("@")39.0512504,-94.8531702,10z/data=!4m5!3m4!1s0x87c0e5f7a6c7ad99:0x2d3967c6e6fea83a!8m2!3d38.97887!4d-94.645035"><i class="fa fa-map-marker"></i> Kansas City Metropolitan</a></li>
                 </ul>
                 <ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o"></i> My Account</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o"></i>My Account</a>
                         <ul class="dropdown-menu" style="background-color: darkgray">
                             @Html.Partial("_LoginPartial")
                         </ul>
@@ -141,8 +140,8 @@
                                         <h5>SUBTOTAL: $2940.00</h5>
                                     </div>
                                     <div class="cart-btns">
-                                        <a href="#">View Cart</a>
-                                        <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                        @Html.ActionLink("View Cart", "Index", "ShoppingCart")
+                                        <a href=@Url.Action("Checkout", "ShoppingCart", null)>Checkout  <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -171,17 +170,11 @@
         <!-- container -->
         <div class="container">
             <!-- responsive-nav -->
-            <ul id="responsive-nav">
-                <!-- NAV -->
-                @{
-                    var currentController = ViewContext.RouteData.Values["controller"] ?? "Home";
-                    var currentAction = ViewContext.RouteData.Values["action"] ?? "Index";
-                    var currentRoute = (currentController + "-" + currentAction).ToLower();
-                }
-                
+            <div id="responsive-nav">
+                <!-- NAV -->             
                 <ul class="main-nav nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = currentRoute == "home-index" ? "active" : "" })</li>
-                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV", null, new { @class = currentRoute == "moviestv-index" ? "active" : "" })</li>
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="nav-item">@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Format</a>
                         <ul class="dropdown-menu">
@@ -212,8 +205,8 @@
                             <li>@Html.ActionLink("Western", "Index", "MoviesTV", new { searchString = "Western" }, new { @class = "dropdown-item" })</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("About Us", "About", "Home", null, new { @class = currentRoute == "home-about" ? "active" : "" })</li>
-                    <li>@Html.ActionLink("Contact Us", "Contact", "Home", null, new { @class = currentRoute == "home-contact" ? "active" : "" })</li>
+                    <li class="nav-item">@Html.ActionLink("About Us", "About", "Home")</li>
+                    <li class="nav-item">@Html.ActionLink("Contact Us", "Contact", "Home")</li>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -365,6 +358,28 @@
     @Scripts.Render("~/bundles/template")
 
     @RenderSection("scripts", false)
+
+    <script>
+        //use the selector values found (or declared) in your style sheet for the active class
+        //- for the code below your stylesheet would look like: .mainmenu ul li.selected a {//code}
+
+        $('.nav-item').each(function () {
+
+            //in this example the class is attached to the li, so you must go one level further to check
+            //the href value of the anchor tag and ensure it matches what is found in the /browser URL
+
+            if ($(this).find('a').attr('href') == window.location.pathname) {
+
+                //if they match add the correct class name. $(this) refers to the li
+                //(the last item in the DOM specified before the each function)
+
+                $(this).children().addClass('active');
+            }
+            if (window.location.pathname == 'home/index' || window.location.pathname == '/') {
+                $('#liHome').addClass('active');
+            }
+        });
+    </script>
 
 </body>
 </html>

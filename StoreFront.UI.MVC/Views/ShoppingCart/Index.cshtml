@@ -1,0 +1,101 @@
+﻿@model Dictionary<int, StoreFront.UI.MVC.Models.CartItemViewModel>
+@{
+    ViewBag.Title = "Shopping Cart";
+
+    //add a couple of local variables for calculations later on in the page
+    decimal? cartTotal = 0;
+    int totalCountOfItems = 0;
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="active">@ViewBag.Title</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <h2 class="col-md-offset-4 col-md-4 text-center">@ViewBag.Title</h2>
+        <div class="col-md-4 text-right" style="padding-bottom: 60px">
+            @Html.ActionLink("Back to Shopping", "Index", "MoviesTV", null, new { @class = "primary-btn cta-btn" })
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            <div class="col-md-12 alert alert-danger text-center" style="font-size: 1.25em">
+                @ViewBag.Message
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th>Movie Cover</th>
+                    <th>Quantity</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    //when calling on an item in a dictionary, you have to specify KEY or VALUE
+                    <tr>
+                        <td style="vertical-align: middle">
+                            <img src="~/Content/img/MoviesTV/t_@item.Value.Product.TitleImage" alt="Movie Cover" title="@item.Value.Product.Title" />
+                        </td>
+                        <td style="vertical-align: middle">
+                            @* Provide a space for the user to update the qty *@
+                            @using (Html.BeginForm("UpdateCart", "ShoppingCart", FormMethod.Post))
+                            {
+                                @Html.Hidden("movieTVID", item.Value.Product.MovieTVID)
+                                @Html.TextBox("qty", item.Value.Qty, new { @class = "form-control", @style = "max-width: 50px; display: inline;" })
+                                <input type="submit" value="Update Quantity" class="btn btn-danger" />
+                            }
+                            @{
+                                //calculate the running total number of items in the cart
+                                totalCountOfItems += item.Value.Qty;
+                            }
+                        </td>
+                        <td style="vertical-align: middle">
+                            @item.Value.Product.Title
+                        </td>
+                        <td style="vertical-align: middle">
+                            @string.Format($"{item.Value.Product.Price:c}")
+                        </td>
+                        <td style="vertical-align: middle">
+                            @* calculate lineTotal & update the running total variable for each row *@
+                            @{
+                                decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
+                                cartTotal += lineTotal;
+                            }
+                            @string.Format($"{lineTotal:c}")
+                        </td>
+                        <td style="vertical-align: middle">
+                            @* remove from cart functionality *@
+                            @Html.ActionLink("Remove from Cart", "RemoveFromCart", "ShoppingCart", new { id = item.Value.Product.MovieTVID }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </table>
+            <p class="alert alert-danger text-center" style="font-size: 1.25em">
+                You have @totalCountOfItems item@(totalCountOfItems > 1 ? "s" : "") in your cart. Your total before taxes and shipping is @string.Format($"{cartTotal:c}")
+                @Html.ActionLink("Proceed to Checkout", "Checkout", "ShoppingCart", null, new { @class = "primary-btn cta-btn", style = "font-size: .75em; margin-left: 75px" })
+            </p>
+        }
+    </div>
+</div>

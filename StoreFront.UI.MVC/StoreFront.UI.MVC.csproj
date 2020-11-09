@@ -185,6 +185,7 @@
     <Compile Include="Controllers\MovieTVDirectorsController.cs" />
     <Compile Include="Controllers\MovieTVWritersController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\StudiosController.cs" />
     <Compile Include="Controllers\TitleStatusController.cs" />
     <Compile Include="Controllers\TitleTypesController.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\CartItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\ImageUploadUtility.cs" />
@@ -508,6 +510,8 @@
     <Content Include="Views\Studios\StudioEdit.cshtml" />
     <Content Include="Views\TitleStatus\TitleStatusCreate.cshtml" />
     <Content Include="Views\TitleStatus\TitleStatusEdit.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\ShoppingCart\Checkout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

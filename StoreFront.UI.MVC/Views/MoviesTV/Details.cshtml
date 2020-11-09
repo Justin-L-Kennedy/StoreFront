@@ -73,17 +73,22 @@
                         <span class="product-available">@Html.DisplayFor(model => model.TitleStatus.TitleStatusName)</span>
                     </div>
                     <p>@Html.DisplayFor(model => model.Description)</p>
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                    @using (Html.BeginForm("AddToCart", "MoviesTV", new { @movieTVID = Model.MovieTVID }, FormMethod.Post))
+                    {
+                        @Html.HiddenFor(x => x.MovieTVID)
+                        <div class="add-to-cart">
+                            <div class="qty-label">
+                                Qty
+                                <div class="input-number">
+                                    @*<input type="number">*@
+                                    @Html.TextBox("Qty", 1, new { @class = "form-control", type = "number" })
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
                             </div>
+                            <button type="submit" class="add-to-cart-btn" name="qty"><i class="fa fa-shopping-cart"></i> add to cart</button>
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
+                    }
                     <ul class="product-btns">
                         <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                         <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>

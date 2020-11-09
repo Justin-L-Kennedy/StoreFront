@@ -637,7 +637,7 @@ textarea.input {
   padding: 20px 0px;
 }
 
-.main-nav>li>a:hover, .main-nav>li>a:focus, .main-nav>li>a.active {
+.main-nav>li>a:hover, .main-nav>li>a:focus, .main-nav>li>a:active {
   color: #D10024;
   background-color: transparent;
 }
@@ -1855,7 +1855,7 @@ textarea.input {
   margin-bottom: 30px;
 }
 
-.shiping-details {
+.shipping-details {
   margin-bottom: 30px;
 }
 

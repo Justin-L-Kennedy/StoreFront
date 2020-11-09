@@ -57,7 +57,7 @@ namespace StoreFront.UI.MVC.Controllers
                     moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Price).ToList();
                     break;
                 default:
-                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType.DiscTypeDescription).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).ToList();
+                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).ToList();
                     break;
             }
             #endregion
@@ -112,6 +112,58 @@ namespace StoreFront.UI.MVC.Controllers
             }
             return View(moviesTV);
         }
+
+        #region Custom Add-to-Cart functionality (called from the Details View)
+        public ActionResult AddToCart(int qty, int movieTVID)
+        {
+            //We will use a Dictionary collection type to store items into the cart
+            //Dictionaries store info as Key, Value pairs
+            Dictionary<int, CartItemViewModel> shoppingCart = null;
+
+            //check if the session variable called cart already exists - if it does we will use it to populate the local collection of shopping cart items we called shoppingCart
+            if (Session["cart"] != null)
+            {
+                //session variable already exists and we will put items from it into our Dictionary called shoppingCart (local list of shopping cart items)
+                shoppingCart = (Dictionary<int, CartItemViewModel>)Session["cart"];
+                //when we UNBOX an object stored in Session to it's smaller more specific type we are using explicit casting
+            }
+            else
+            {
+                //if session cart doesn't exist yet, we need to instantiate it (aka NEW IT UP)
+                shoppingCart = new Dictionary<int, CartItemViewModel>();
+            }
+            //after the if/else above we have a local version of the shopping cart list that is ready to have items added to it
+
+            //find the product referenced by the ID that was passed to this method
+            MoviesTV product = db.MoviesTVs.Where(m => m.MovieTVID == movieTVID).FirstOrDefault();
+            if (product == null)
+            {
+                //if bad ID, kick them back to the same page to try again or you could throw an error
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                //if the book IS valid, add the line-item to the cart
+                CartItemViewModel item = new CartItemViewModel(qty, product);
+
+                //put item in the local cart BUT if we already have that product as a cart item, then we will just update the quantity
+                //THIS is why Dictionary is a great choice for the shopping cart collection
+                if (shoppingCart.ContainsKey(product.MovieTVID))
+                {
+                    shoppingCart[product.MovieTVID].Qty += qty;
+                }
+                else
+                {
+                    shoppingCart.Add(product.MovieTVID, item);
+                }
+                //now update the Session version of Shopping Cart so we can maintain the info between request/response cycles
+                Session["cart"] = shoppingCart; //implicit casting or boxing
+                Session["confirm"] = $"'{product.Title}' (Quantity: {qty}) added to cart";
+            }
+            //send the user to a view that shows their cart items
+            return RedirectToAction("Index", "ShoppingCart");
+        }
+        #endregion
 
         // GET: MoviesTV/Create
         [Authorize(Roles = "Admin")]
