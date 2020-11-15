@@ -427,4 +427,27 @@ namespace StoreFront.DATA.EF//.Metadata
         public string FullName { get { return FirstName + " " + LastName; } }
     }
     #endregion
+
+    #region UserDetail Metadata
+    public class UserDetailMetadata
+    {
+        [Display(Name = "User ID")]
+        public string UserID { get; set; }
+
+        [Required(ErrorMessage = "* First Name is required")]
+        [StringLength(50, ErrorMessage = "* First Name cannot be longer than 50 characters")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "* Last Name is required")]
+        [StringLength(75, ErrorMessage = "* Last Name cannot be longer than 75 characters")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "* Favorite Movie is required")]
+        [StringLength(100, ErrorMessage = "* Favorite Movie cannot be longer than 100 characters")]
+        [Display(Name = "Favorite Movie")]
+        public string FavoriteMovie { get; set; }
+    }
+    #endregion
 }

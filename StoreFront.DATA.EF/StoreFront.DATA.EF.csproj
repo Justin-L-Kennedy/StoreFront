@@ -106,6 +106,9 @@
     <Compile Include="TitleType.cs">
       <DependentUpon>StoreFrontModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserDetail.cs">
+      <DependentUpon>StoreFrontModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Writer.cs">
       <DependentUpon>StoreFrontModel.tt</DependentUpon>
     </Compile>

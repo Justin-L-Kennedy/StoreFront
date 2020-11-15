@@ -39,5 +39,6 @@ namespace StoreFront.DATA.EF
         public virtual DbSet<TitleType> TitleTypes { get; set; }
         public virtual DbSet<RegionCode> RegionCodes { get; set; }
         public virtual DbSet<MPAARating> MPAARatings { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     }
 }

@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Shopping Cart";
+
+    //add a couple of local variables for calculations later on in the page
+    decimal? cartTotal = 0;
+    int totalCountOfItems = 0;
+}
+
+<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+    <i class="fa fa-shopping-cart"></i>
+    <span>Your Cart</span>
+    <div class="qty">@totalCountOfItems</div>
+</a>
+
+@if (Session.Count == 0)
+{
+    <div class="col-md-12 alert alert-danger text-center" style="font-size: 1.25em">
+        @ViewBag.Message
+    </div>
+}
+else
+{
+    <div class="cart-dropdown">
+        <div class="cart-list">
+            @foreach (var item in (Dictionary<int, StoreFront.UI.MVC.Models.CartItemViewModel>)Session["cart"])
+            {
+                <div class="product-widget">
+                    <div class="product-img">
+                        <img src="~/Content/img/MoviesTV/t_@item.Value.Product.TitleImage" alt="Movie Cover" title="@item.Value.Product.Title" />
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name"><a href="@Url.Action("Details", "MoviesTV", new { id = item.Value.Product.MovieTVID })">@item.Value.Product.Title</a></h3>
+                        <h4 class="product-price"><span class="qty">@item.Value.Qty x</span>@string.Format($"{item.Value.Product.Price:c}")</h4>
+                    </div>
+                    <a href="@Url.Action("RemoveFromCart", "ShoppingCart", new { id = item.Value.Product.MovieTVID })" class="delete"><i class="fa fa-close"></i></a>
+                    @{
+                        totalCountOfItems += item.Value.Qty;
+                        decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
+                        cartTotal += lineTotal;
+                    }
+                </div>
+            }
+        </div>
+        <div class="cart-summary">
+            <small>@totalCountOfItems item@(totalCountOfItems == 1 ? "" : "s") in your cart.</small>
+            <h5>SUBTOTAL: @string.Format($"{cartTotal:c}")</h5>
+        </div>
+        <div class="cart-btns">
+            @Html.ActionLink("View Cart", "Index", "ShoppingCart")
+            <a href=@Url.Action("Checkout", "ShoppingCart", null)>Checkout <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+}

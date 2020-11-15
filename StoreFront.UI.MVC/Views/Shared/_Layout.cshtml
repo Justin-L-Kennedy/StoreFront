@@ -51,7 +51,7 @@
                 <ul class="header-links pull-right">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o"></i>My Account</a>
-                        <ul class="dropdown-menu" style="background-color: darkgray">
+                        <ul class="nav dropdown-menu" style="background-color: darkgray">
                             @Html.Partial("_LoginPartial")
                         </ul>
                     </li>
@@ -106,7 +106,8 @@
                             <!-- /Wishlist -->
                             <!-- Cart -->
                             <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                @Html.Partial("_ShoppingCartPartial")
+                                @*<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-cart"></i>
                                     <span>Your Cart</span>
                                     <div class="qty">3</div>
@@ -143,7 +144,7 @@
                                         @Html.ActionLink("View Cart", "Index", "ShoppingCart")
                                         <a href=@Url.Action("Checkout", "ShoppingCart", null)>Checkout  <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                             <!-- /Cart -->
                             <!-- Menu Toogle -->

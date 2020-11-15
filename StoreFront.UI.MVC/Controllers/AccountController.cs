@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using StoreFront.DATA.EF;
 
 namespace StoreFront.UI.MVC.Controllers
 {
@@ -68,7 +69,7 @@ namespace StoreFront.UI.MVC.Controllers
                 return View(model);
             }
 
-            // This doen't count login failures towards lockout only two factor authentication
+            // This doesn't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
@@ -153,11 +154,28 @@ namespace StoreFront.UI.MVC.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
+                    //If we land here, the new ASPNetUser account has been created
+                    #region Assign UserDetails during registration
+                    UserDetail newUserDetails = new UserDetail();
+                    newUserDetails.UserID = user.Id;
+                    newUserDetails.FirstName = model.FirstName;
+                    newUserDetails.LastName = model.LastName;
+                    newUserDetails.FavoriteMovie = model.FavoriteMovie;
+
+                    //now save the info to the database
+                    StoreFrontEntities db = new StoreFrontEntities();
+                    db.UserDetails.Add(newUserDetails);
+                    db.SaveChanges();
+                    #endregion
+
+                    //Send the user to the login page to log in with their new account
+                    return View("Login");
+
+                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                    //ViewBag.Link = callbackUrl;
+                    //return View("DisplayEmail");
                 }
                 AddErrors(result);
             }
