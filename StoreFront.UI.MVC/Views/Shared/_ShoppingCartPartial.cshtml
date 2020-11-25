@@ -12,10 +12,20 @@
     <div class="qty">@totalCountOfItems</div>
 </a>
 
-@if (Session.Count == 0)
+@if ((Dictionary<int, StoreFront.UI.MVC.Models.CartItemViewModel>)Session["cart"] == null)
 {
-    <div class="col-md-12 alert alert-danger text-center" style="font-size: 1.25em">
-        @ViewBag.Message
+    <div class="cart-dropdown">
+        <div class="cart-list">
+            
+        </div>
+        <div class="cart-summary">
+            <small>@totalCountOfItems item@(totalCountOfItems == 1 ? "" : "s") in your cart.</small>
+            <h5>SUBTOTAL: @string.Format($"{cartTotal:c}")</h5>
+        </div>
+        <div class="cart-btns">
+            @Html.ActionLink("View Cart", "Index", "ShoppingCart")
+            <a href=@Url.Action("Checkout", "ShoppingCart", null)>Checkout <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
     </div>
 }
 else

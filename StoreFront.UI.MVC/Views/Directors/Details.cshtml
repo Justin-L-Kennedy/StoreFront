@@ -1,42 +1,76 @@
 ﻿@model StoreFront.DATA.EF.Director
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = $"{Model.FullName}";
 }
 
-<h2>Details</h2>
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
+                    <li>@Html.ActionLink("Directors", "Index", "Directors")</li>
+                    <li class="active">@ViewBag.Title</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 
-<div>
-    <h4>Director</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-
-    </dl>
+<div class="section">
+    <div class="container">
+        <h2>@ViewBag.Title (@Model.Country)</h2>
+        <hr />
+        <div class="col-md-10 col-md-offset-1">
+            <table class="table data-table table-striped" id="CreditsTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Movie / Television Show
+                        </th>
+                        <th>
+                            Theatrical Release Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (StoreFront.DATA.EF.MoviesTV item in ViewBag.Credits)
+                    {
+                        <tr id="Movie-@item.MovieTVID">
+                            <td>
+                                <a href="@Url.Action("Details", "MoviesTV", new { id = item.MovieTVID })"><strong>@item.Title</strong></a>
+                            </td>
+                            <td>
+                                @($"{item.ReleaseDate:d}")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.DirectorID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#CreditsTable').DataTable({
+                "order": [[ 1, "desc" ]],
+                "info": false,
+                "paging": false
+            });
+        });
+    </script>
+}

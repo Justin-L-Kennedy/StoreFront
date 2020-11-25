@@ -4,50 +4,73 @@
     ViewBag.Title = "Movie/TV Writer Index";
 }
 
-<div class="container">
-    <h2>@ViewBag.Title</h2>
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
+                    <li>@Html.ActionLink("Writers", "Index", "Writers")</li>
+                    <li class="active">@ViewBag.Title</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table data-table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.MoviesTV.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Writer.FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WriterOrder)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
+<div class="section">
+    <div class="container">
+        <h2 class="text-center">@ViewBag.Title</h2>
 
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <p class="row">
+            @Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-danger text-right pull-left" })
+        </p>
+        <table class="table data-table table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MoviesTV.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Writer.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WriterOrder)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVWriterID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVWriterID })
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MoviesTV.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Writer.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WriterOrder)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Details", "MoviesTV", new { id = item.MovieTVID })"><strong>@item.MoviesTV.Title</strong></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Writers", new { id = item.WriterID })"><strong>@item.Writer.FullName</strong></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WriterOrder)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVWriterID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVWriterID })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
 </div>
 
 @section scripts{
@@ -55,7 +78,7 @@
         $(document).ready(function () {
             $(".data-table").DataTable({
                 "order": [[0, "asc"]]
-                });
+            });
         });
     </script>
 }

@@ -52,11 +52,29 @@
             <div class="col-md-5">
                 <div class="product-details">
                     <h2 class="product-name">@Html.DisplayFor(model => model.Title)</h2>
-                    <ul>
-                        <li><strong>@Html.DisplayNameFor(model => model.MPAARating.Rating): </strong>@Html.DisplayFor(model => model.MPAARating.Rating)</li>
-                        <li><strong>@Html.DisplayNameFor(model => model.Runtime): </strong>@Html.DisplayFor(model => model.Runtime) minutes</li>
+                    <ul class="row">
+                        <li class="col-md-6"><strong>@Html.DisplayNameFor(model => model.MPAARating.Rating): </strong>@Html.DisplayFor(model => model.MPAARating.Rating)</li>
+                        <li class="col-md-6"><strong>@Html.DisplayNameFor(model => model.Runtime): </strong>@Html.DisplayFor(model => model.Runtime) minutes</li>
+                        <li class="col-md-12">
+                            <strong>Directed By: </strong>
+                            <ul class="product-list">
+                                @foreach (StoreFront.DATA.EF.Director item in ViewBag.DirectedBy)
+                                {
+                                    <li><a href="@Url.Action("Details", "Directors", new { id = item.DirectorID })">@item.FullName</a></li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="col-md-12">
+                            <strong>Written By: </strong>
+                            <ul class="product-list">
+                                @foreach (StoreFront.DATA.EF.Writer item in ViewBag.WrittenBy)
+                                {
+                                    <li><a href="@Url.Action("Details", "Writers", new { id = item.WriterID })">@item.FullName</a></li>
+                                }
+                            </ul>
+                        </li>
                     </ul>
-                    <div>
+                    @*<div>
                         <div class="product-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -65,7 +83,7 @@
                             <i class="fa fa-star-o"></i>
                         </div>
                         <a class="review-link" href="#">10 Review(s) | Add your review</a>
-                    </div>
+                    </div>*@
                     <div>
                         <h3 class="product-price">@Html.DisplayFor(model => model.SalePrice) @if (@Model.IsOnSaleFeature == true)
                             {<del class="product-old-price">@Html.DisplayFor(model => model.Price)</del>}
@@ -89,10 +107,10 @@
                             <button type="submit" class="add-to-cart-btn" name="qty"><i class="fa fa-shopping-cart"></i> add to cart</button>
                         </div>
                     }
-                    <ul class="product-btns">
+                    @*<ul class="product-btns">
                         <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                         <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
-                    </ul>
+                    </ul>*@
                     <ul class="product-links">
                         <li>Category:</li>
                         <li><a href="#">@Html.DisplayFor(model => model.DiscType.DiscTypeDescription)</a></li>
@@ -106,6 +124,10 @@
                         <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                         <li><a href="#"><i class="fa fa-envelope"></i></a></li>
                     </ul>
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieTVID }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
                 </div>
             </div>
             <!-- /Product details -->
@@ -116,7 +138,8 @@
                     <ul class="tab-nav">
                         <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
                         <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Cast</a></li>
+                        @*<li><a data-toggle="tab" href="#tab4">Reviews (3)</a></li>*@
                     </ul>
                     <!-- /product tab nav -->
                     <!-- product tab content -->
@@ -124,7 +147,7 @@
                         <!-- tab1  -->
                         <div id="tab1" class="tab-pane fade in active">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-10 col-md-offset-1">
                                     <p>@Html.DisplayFor(model => model.Description)</p>
                                 </div>
                             </div>
@@ -133,21 +156,59 @@
                         <!-- tab2  -->
                         <div id="tab2" class="tab-pane fade in">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-5 col-md-offset-1">
                                     <ul>
-                                        <li><strong>@Html.DisplayNameFor(model => model.DiscType.DiscTypeName): </strong>@Html.DisplayFor(model => model.DiscType.DiscTypeName)</li>
                                         <li><strong>@Html.DisplayNameFor(model => model.Genre.GenreName): </strong>@Html.DisplayFor(model => model.Genre.GenreName)</li>
                                         <li><strong>@Html.DisplayNameFor(model => model.TitleType.TitleTypeName): </strong>@Html.DisplayFor(model => model.TitleType.TitleTypeName)</li>
-                                        <li><strong>@Html.DisplayNameFor(model => model.Studio.StudioName): </strong>@Html.DisplayFor(model => model.Studio.StudioName)</li>
-                                        <li><strong>@Html.DisplayNameFor(model => model.ReleaseDate): </strong>@Html.DisplayFor(model => model.ReleaseDate)</li>
                                         <li><strong>@Html.DisplayNameFor(model => model.MPAARating.Rating): </strong>@Html.DisplayFor(model => model.MPAARating.Rating)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.Runtime): </strong>@Html.DisplayFor(model => model.Runtime)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.ReleaseDate): </strong>@Html.DisplayFor(model => model.ReleaseDate)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.Studio.StudioName): </strong>@Html.DisplayFor(model => model.Studio.StudioName)</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-5">
+                                    <ul>
+                                        <li><strong>@Html.DisplayNameFor(model => model.UPC): </strong>@Html.DisplayFor(model => model.UPC)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.DiscType.DiscTypeName): </strong>@Html.DisplayFor(model => model.DiscType.DiscTypeName)</li>
+                                        <li><strong>@Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo): </strong>@Html.DisplayFor(model => model.RegionCode.RegionCodeInfo)</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <!-- /tab2  -->
-                        <!-- tab3  -->
+                        <!-- /tab3  -->
                         <div id="tab3" class="tab-pane fade in">
+                            <div class="col-md-10 col-md-offset-1">
+                                <table class="table data-table table-striped" id="ActorsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Actor
+                                            </th>
+                                            <th>
+                                                Character
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (StoreFront.DATA.EF.Actor item in ViewBag.Cast)
+                                        {
+                                            <tr id="Actor-@item.ActorID">
+                                                <td data-order="@item.ActorOrder">
+                                                    <a href="@Url.Action("Details", "Actors", new { id = item.ActorID })"><strong>@item.FullName</strong></a>
+                                                </td>
+                                                <td>
+                                                    @item.Character
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /tab3  -->
+                        @*<!-- tab4  -->
+                        <div id="tab4" class="tab-pane fade in">
                             <div class="row">
                                 <!-- Rating -->
                                 <div class="col-md-3">
@@ -319,7 +380,7 @@
                                 <!-- /Review Form -->
                             </div>
                         </div>
-                        <!-- /tab3  -->
+                        <!-- /tab4  -->*@
                     </div>
                     <!-- /product tab content  -->
                 </div>
@@ -462,146 +523,13 @@
 </div>
 <!-- /Section -->
 
-<div class="container">
-    <h2>@ViewBag.Title</h2>
-
-    <div class="col-md-6">
-        <img src="~/Content/img/MoviesTV/@Model.TitleImage" alt="Title cover" title="@Model.Title" />
-    </div>
-    <div class="col-md-6">
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.UPC)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.UPC)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Runtime)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Runtime)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Price)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Price)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.UnitsSold)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.UnitsSold)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ReleaseDate)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.IsSiteFeature)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.IsSiteFeature)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.IsOnSaleFeature)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.IsOnSaleFeature)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Genre.GenreName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Genre.GenreName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Studio.StudioName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Studio.StudioName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TitleStatus.TitleStatusName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TitleStatus.TitleStatusName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.DiscType.DiscTypeName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.DiscType.DiscTypeName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TitleType.TitleTypeName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TitleType.TitleTypeName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.RegionCode.RegionCodeInfo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.RegionCode.RegionCodeInfo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.MPAARating.Rating)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MPAARating.Rating)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.MovieTVID }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#ActorsTable').DataTable({
+                "info": false,
+                "paging": false
+            });
+        });
+    </script>
+}

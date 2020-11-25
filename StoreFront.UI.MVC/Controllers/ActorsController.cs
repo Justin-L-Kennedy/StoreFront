@@ -32,6 +32,25 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            #region Movies
+            var actorMovies = db.MovieTVActors.Where(m => m.ActorID == id).ToList();
+            var movies = db.MoviesTVs.ToList();
+            List<MoviesTV> credits = new List<MoviesTV>();
+            foreach (var m in movies)
+            {
+                foreach (var am in actorMovies)
+                {
+                    if (m.MovieTVID == am.MovieTVID)
+                    {
+                        m.Character = am.Character;
+                        credits.Add(m);
+                    }
+                }
+            }
+            ViewBag.Credits = credits;
+            #endregion
+
             return View(actor);
         }
 

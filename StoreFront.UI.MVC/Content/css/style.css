@@ -1616,6 +1616,10 @@ textarea.input {
   margin-left: 10px;
 }
 
+.product-details .product-list {
+    display: inline-table;
+}
+
 /*----------------------------*\
 	 Product tab
 \*----------------------------*/

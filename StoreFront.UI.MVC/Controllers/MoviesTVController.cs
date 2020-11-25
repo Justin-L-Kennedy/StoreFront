@@ -8,7 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StoreFront.DATA.EF;
-using StoreFront.UI.MVC.Utilities; //gives us access to the ImageService.cs
+using StoreFront.UI.MVC.Utilities; //gives us access to the ImageUploadUtility.cs
 using StoreFront.UI.MVC.Models; //gives us access to the CartItemViewModel
 using PagedList;
 
@@ -62,6 +62,24 @@ namespace StoreFront.UI.MVC.Controllers
             }
             #endregion
 
+            #region Filters
+            var discFormats = db.DiscTypes.ToList();
+            List<DiscType> formats = new List<DiscType>();
+            foreach (var df in discFormats)
+            {
+                formats.Add(df);
+            }
+            ViewBag.Formats = formats;
+
+            var movieGenres = db.Genres.ToList();
+            List<Genre> genres = new List<Genre>();
+            foreach (var mg in movieGenres)
+            {
+                genres.Add(mg);
+            }
+            ViewBag.Genres = genres;
+            #endregion
+
             #region Dropdown List for Page Size
             int count = db.MoviesTVs.Count();
             ViewBag.PageSize = new List<SelectListItem>()
@@ -110,6 +128,62 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 return HttpNotFound();
             }
+
+            #region Actors
+            var movieActors = db.MovieTVActors.Where(m => m.MovieTVID == id).ToList();
+            var actors = db.Actors.ToList();
+            List<Actor> cast = new List<Actor>();
+            foreach (var a in actors)
+            {
+                foreach (var ma in movieActors)
+                {
+                    if (a.ActorID == ma.ActorID)
+                    {
+                        a.ActorOrder = ma.ActorOrder;
+                        a.Character = ma.Character;
+                        cast.Add(a);
+                    }
+                }
+            }
+            ViewBag.Cast = cast;
+            #endregion
+
+            #region Directors
+            var movieDirectors = db.MovieTVDirectors.Where(m => m.MovieTVID == id).ToList();
+            var directors = db.Directors.ToList();
+            List<Director> directedBy = new List<Director>();
+            foreach (var d in directors)
+            {
+                foreach (var md in movieDirectors)
+                {
+                    if (d.DirectorID == md.DirectorID)
+                    {
+                        d.DirectorOrder = md.DirectorOrder;
+                        directedBy.Add(d);
+                    }
+                }
+            }
+            ViewBag.DirectedBy = directedBy;
+            #endregion
+
+            #region Writers
+            var movieWriters = db.MovieTVWriters.Where(m => m.MovieTVID == id).ToList();
+            var writers = db.Writers.ToList();
+            List<Writer> writtenBy = new List<Writer>();
+            foreach (var w in writers)
+            {
+                foreach (var mw in movieWriters)
+                {
+                    if (w.WriterID == mw.WriterID)
+                    {
+                        w.WriterOrder = mw.WriterOrder;
+                        writtenBy.Add(w);
+                    }
+                }
+            }
+            ViewBag.WrittenBy = writtenBy;
+            #endregion
+
             return View(moviesTV);
         }
 

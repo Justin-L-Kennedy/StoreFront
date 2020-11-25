@@ -15,11 +15,8 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
-
             return View();
         }
 
@@ -28,6 +25,7 @@ namespace StoreFront.UI.MVC.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Contact(ContactViewModel cvm)

@@ -1,62 +1,84 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Writer>
 
 @{
-    ViewBag.Title = "Writer Index";
+    ViewBag.Title = "Writers";
 }
 
-<div class="container">
-    <h2>@ViewBag.Title</h2>
-
-    <p class="row">
-        <button id="toggleWriterCreate" class="btn btn-danger text-right pull-left">Add New</button>
-    </p>
-    <div id="WriterCreate">
-        @Html.Partial("WriterCreate", new StoreFront.DATA.EF.Writer())
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
+                    <li class="active">@ViewBag.Title</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
     </div>
-    <table class="table data-table table-striped" id="WritersTable">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Country)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr id="Writer-@item.WriterID">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Country)
-                    </td>
-                    <td>
-                        <a href="" class="EditLink" id="@item.WriterID">Edit</a> |
-                        @Ajax.ActionLink("Delete", "AjaxDelete", "Writers", new { id = item.WriterID },
-                            new AjaxOptions {
-                                HttpMethod = "POST",
-                                Confirm = $"Are you sure you want to delete {item.FullName} from writers?",
-                                OnSuccess = "deleteConfirmed",
-                                OnFailure = "deleteFailed"
-                            })
-                    </td>
+<div class="section">
+    <div class="container">
+        <h2 class="text-center">@ViewBag.Title</h2>
+
+        <p class="row">
+            <button id="toggleWriterCreate" class="btn btn-danger text-right pull-left">Add New</button>
+        </p>
+        <div id="WriterCreate">
+            @Html.Partial("WriterCreate", new StoreFront.DATA.EF.Writer())
+        </div>
+        <table class="table data-table table-striped" id="WritersTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Country)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="Writer-@item.WriterID">
+                        <td>
+                            <a href="@Url.Action("Details", "Writers", new { id = item.WriterID })"><strong>@item.FirstName</strong></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Writers", new { id = item.WriterID })"><strong>@item.LastName</strong></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Country)
+                        </td>
+                        <td>
+                            <a href="" class="EditLink" id="@item.WriterID">Edit</a> |
+                            @Ajax.ActionLink("Delete", "AjaxDelete", "Writers", new { id = item.WriterID },
+                                new AjaxOptions {
+                                    HttpMethod = "POST",
+                                    Confirm = $"Are you sure you want to delete {item.FullName} from writers?",
+                                    OnSuccess = "deleteConfirmed",
+                                    OnFailure = "deleteFailed"
+                                })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
 </div>
 
 @section scripts{
@@ -64,7 +86,7 @@
         $(document).ready(function () {
             $(".data-table").DataTable({
                 "order": [[1, "asc"]]
-                });
+            });
         });
 
         //****** AJAX DELETE ******//

@@ -64,6 +64,19 @@ namespace StoreFront.UI.MVC.Models
 
     public class RegisterViewModel
     {
+        //adding FirstName, LastName and FavoriteMovie for the UserDetails records
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Favorite Movie")]
+        public string FavoriteMovie { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -79,19 +92,6 @@ namespace StoreFront.UI.MVC.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        //adding FirstName and LastName for the UserDetails records
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-        [Required]
-        [Display(Name = "Favorite Movie")]
-        public string FavoriteMovie { get; set; }
     }
 
     public class ResetPasswordViewModel

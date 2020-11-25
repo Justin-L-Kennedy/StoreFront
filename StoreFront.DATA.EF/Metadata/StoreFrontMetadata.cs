@@ -33,6 +33,10 @@ namespace StoreFront.DATA.EF//.Metadata
     {
         [Display(Name = "Actor Name")]
         public string FullName { get { return FirstName + " " + LastName; } }
+
+        public string Character { get; set; }
+
+        public Nullable<byte> ActorOrder { get; set; }
     }
     #endregion
 
@@ -62,6 +66,8 @@ namespace StoreFront.DATA.EF//.Metadata
     {
         [Display(Name = "Director Name")]
         public string FullName { get { return FirstName + " " + LastName; } }
+
+        public Nullable<byte> DirectorOrder { get; set; }
     }
     #endregion
 
@@ -160,7 +166,7 @@ namespace StoreFront.DATA.EF//.Metadata
         public Nullable<int> UnitsSold { get; set; }
 
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Release Date")]
+        [Display(Name = "Theatrical Release Date")]
         public Nullable<System.DateTime> ReleaseDate { get; set; }
 
         [Required(ErrorMessage = "* Studio ID is required")]
@@ -199,6 +205,8 @@ namespace StoreFront.DATA.EF//.Metadata
                 };
             }
         }
+
+        public string Character { get; set; }
     }
     #endregion
 
@@ -338,7 +346,7 @@ namespace StoreFront.DATA.EF//.Metadata
 
         [Required(ErrorMessage = "* Studio Name is required")]
         [StringLength(50, ErrorMessage = "* Studio Name cannot be longer than 50 characters")]
-        [Display(Name = "Studio Name")]
+        [Display(Name = "Studio")]
         public string StudioName { get; set; }
 
         [StringLength(50, ErrorMessage = "* Country cannot be longer than 50 characters")]
@@ -425,6 +433,8 @@ namespace StoreFront.DATA.EF//.Metadata
     {
         [Display(Name = "Writer Name")]
         public string FullName { get { return FirstName + " " + LastName; } }
+
+        public Nullable<byte> WriterOrder { get; set; }
     }
     #endregion
 

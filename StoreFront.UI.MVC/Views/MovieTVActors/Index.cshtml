@@ -4,70 +4,93 @@
     ViewBag.Title = "Movie/TV Actor Index";
 }
 
-<div class="container">
-    <h2>@ViewBag.Title</h2>
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
+                    <li>@Html.ActionLink("Actors", "Index", "Actors")</li>
+                    <li class="active">@ViewBag.Title</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    @*<p class="row">
-        <button id="toggleMovieTVActorCreate" class="btn btn-danger text-right pull-left">Add New</button>
-    </p>
-    <div id="MovieTVActorCreate">
-        @Html.Partial("MovieTVActorCreate", new StoreFront.DATA.EF.MovieTVActor())
-    </div>*@
-    <table class="table data-table table-striped" id="MovieTVActorsTable">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.MoviesTV.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Actor.FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ActorOrder)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Character)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
+<div class="section">
+    <div class="container">
+        <h2 class="text-center">@ViewBag.Title</h2>
 
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr id="MovieTVActor-@item.MovieTVActorID">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MoviesTV.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Actor.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ActorOrder)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Character)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVActorID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVActorID })
-                        @*<a href="" class="EditLink" id="@item.MovieTVActorID">Edit</a> |
-                        @Ajax.ActionLink("Delete", "AjaxDelete", "MovieTVActors", new { id = item.MovieTVActorID },
-                            new AjaxOptions {
-                                HttpMethod = "POST",
-                                Confirm = $"Are you sure you want to delete {item.Actor.FullName} from {item.MoviesTV.Title}?",
-                                OnSuccess = "deleteConfirmed",
-                                OnFailure = "deleteFailed"
-                            })*@
-                    </td>
+        <p class="row">
+            @Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-danger text-right pull-left" })
+        </p>
+        @*<p class="row">
+                <button id="toggleMovieTVActorCreate" class="btn btn-danger text-right pull-left">Add New</button>
+            </p>
+            <div id="MovieTVActorCreate">
+                @Html.Partial("MovieTVActorCreate", new StoreFront.DATA.EF.MovieTVActor())
+            </div>*@
+        <table class="table data-table table-striped" id="MovieTVActorsTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MoviesTV.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Actor.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActorOrder)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Character)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="MovieTVActor-@item.MovieTVActorID">
+                        <td>
+                            <a href="@Url.Action("Details", "MoviesTV", new { id = item.MovieTVID })"><strong>@item.MoviesTV.Title</strong></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Actors", new { id = item.ActorID })"><strong>@item.Actor.FullName</strong></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActorOrder)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Character)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVActorID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVActorID })
+                            @*<a href="" class="EditLink" id="@item.MovieTVActorID">Edit</a> |
+                                @Ajax.ActionLink("Delete", "AjaxDelete", "MovieTVActors", new { id = item.MovieTVActorID },
+                                    new AjaxOptions {
+                                        HttpMethod = "POST",
+                                        Confirm = $"Are you sure you want to delete {item.Actor.FullName} from {item.MoviesTV.Title}?",
+                                        OnSuccess = "deleteConfirmed",
+                                        OnFailure = "deleteFailed"
+                                    })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
 </div>
 
 @section scripts{
@@ -75,7 +98,7 @@
         $(document).ready(function () {
             $(".data-table").DataTable({
                 "order": [[0, "asc"]]
-                });
+            });
         });
 
         //****** AJAX DELETE ******//
