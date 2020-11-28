@@ -37,6 +37,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: MovieTVWriters/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.MovieTVID = new SelectList(db.MoviesTVs, "MovieTVID", "Title");
@@ -49,6 +50,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "MovieTVWriterID,MovieTVID,WriterID,WriterOrder")] MovieTVWriter movieTVWriter)
         {
             if (ModelState.IsValid)
@@ -64,6 +66,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: MovieTVWriters/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -85,6 +88,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "MovieTVWriterID,MovieTVID,WriterID,WriterOrder")] MovieTVWriter movieTVWriter)
         {
             if (ModelState.IsValid)
@@ -99,6 +103,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: MovieTVWriters/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,6 +121,7 @@ namespace StoreFront.UI.MVC.Controllers
         // POST: MovieTVWriters/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             MovieTVWriter movieTVWriter = db.MovieTVWriters.Find(id);

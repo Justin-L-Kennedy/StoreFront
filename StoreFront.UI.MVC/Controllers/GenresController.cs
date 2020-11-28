@@ -36,6 +36,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Genres/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +47,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "GenreID,GenreName")] Genre genre)
         {
             if (ModelState.IsValid)
@@ -59,6 +61,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Genres/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +81,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "GenreID,GenreName")] Genre genre)
         {
             if (ModelState.IsValid)
@@ -90,6 +94,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Genres/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +112,7 @@ namespace StoreFront.UI.MVC.Controllers
         // POST: Genres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Genre genre = db.Genres.Find(id);
@@ -118,6 +124,7 @@ namespace StoreFront.UI.MVC.Controllers
         #region AJAX CRUD
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxCreate(Genre genre)
         {
             db.Genres.Add(genre);
@@ -126,6 +133,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public PartialViewResult GenreEdit(int id)
         {
             Genre genre = db.Genres.Find(id);
@@ -134,6 +142,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxEdit(Genre genre)
         {
             db.Entry(genre).State = EntityState.Modified;
@@ -142,6 +151,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxDelete(int id)
         {
             Genre genre = db.Genres.Find(id);

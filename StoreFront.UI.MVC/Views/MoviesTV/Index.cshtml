@@ -13,12 +13,18 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-9">
                 <ul class="breadcrumb-tree">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="active">@ViewBag.Title</li>
                 </ul>
             </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-md-3 text-right">
+                    <a href="@Url.Action("Create")"><i class="fa fa-film"></i> Add New Movie/TV Show</a>
+                </div>
+            }
         </div>
         <!-- /row -->
     </div>
@@ -134,20 +140,25 @@
                                     <h3 class="product-name"><a href="@Url.Action("Details", new { id = item.MovieTVID })">@Html.DisplayFor(modelItem => item.Title)</a></h3>
                                     <h4 class="product-price">
                                         @Html.DisplayFor(modelItem => item.SalePrice) @if (item.IsOnSaleFeature == true)
-                                    {<del class="product-old-price">@Html.DisplayFor(modelItem => item.Price)</del>}
+                                        {<del class="product-old-price">@Html.DisplayFor(modelItem => item.Price)</del>}
                                     </h4>
-                                    <div class="product-rating">
+                                    @*<div class="product-rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o"></i>
-                                    </div>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                    </div>
+                                    </div>*@
+                                    @if (User.IsInRole("Admin"))
+	                                {
+                                        <ul class="product-btns">
+                                            <li><a href="@Url.Action("Edit", new { id = item.MovieTVID })"><i class="fa fa-edit"></i><span class="tooltipp">edit</span></a></li>
+                                            <li><a href="@Url.Action("Delete", new { id = item.MovieTVID })"><i class="fa fa-trash"></i><span class="tooltipp">delete</span></a></li>
+                                            @*<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
+                                    </ul>
+	                                }   
                                 </div>
                                 @using (Html.BeginForm("AddToCart", "MoviesTV", new { @movieTVID = item.MovieTVID }, FormMethod.Post))
                                 {
@@ -193,70 +204,3 @@
         });
     </script>
 }
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UPC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Runtime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MPAARating.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitsSold)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSiteFeature)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsOnSaleFeature)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre.GenreName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Studio.StudioName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleStatus.TitleStatusName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiscType.DiscTypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleType.TitleTypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegionCode.RegionCodeInfo)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.MovieTVID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MovieTVID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MovieTVID })
-            </td>
-        </tr>
-    }
-</table>

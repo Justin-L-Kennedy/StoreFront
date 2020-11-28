@@ -3,14 +3,26 @@ using System.Web.Mvc;
 using StoreFront.UI.MVC.Models;
 using System.Net.Mail;
 using System.Net;
+using System.Linq;
+using StoreFront.DATA.EF;
 
 namespace StoreFront.UI.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
+        private StoreFrontEntities db = new StoreFrontEntities();
+
+        //[HttpGet]
         public ActionResult Index()
         {
+            ViewBag.NewDVDs = db.MoviesTVs.OrderBy(m => m.ReleaseDate).Where(m => m.DiscTypeID == 1 && m.IsSiteFeature == true).ToList();
+            ViewBag.NewBDs = db.MoviesTVs.OrderBy(m => m.ReleaseDate).Where(m => m.DiscTypeID == 2 && m.IsSiteFeature == true).ToList();
+            ViewBag.NewUHDs = db.MoviesTVs.OrderBy(m => m.ReleaseDate).Where(m => m.DiscTypeID == 3 && m.IsSiteFeature == true).ToList();
+
+            ViewBag.TopDVDs = db.MoviesTVs.OrderByDescending(m => m.UnitsSold).Where(m => m.DiscTypeID == 1).ToList();
+            ViewBag.TopBDs = db.MoviesTVs.OrderByDescending(m => m.UnitsSold).Where(m => m.DiscTypeID == 2).ToList();
+            ViewBag.TopUHDs = db.MoviesTVs.OrderByDescending(m => m.UnitsSold).Where(m => m.DiscTypeID == 3).ToList();
+
             return View();
         }
 

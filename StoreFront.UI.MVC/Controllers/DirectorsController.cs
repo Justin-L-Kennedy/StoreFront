@@ -54,6 +54,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Directors/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -64,6 +65,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "DirectorID,FirstName,LastName,Country")] Director director)
         {
             if (ModelState.IsValid)
@@ -77,6 +79,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Directors/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,6 +99,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "DirectorID,FirstName,LastName,Country")] Director director)
         {
             if (ModelState.IsValid)
@@ -108,6 +112,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Directors/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -125,6 +130,7 @@ namespace StoreFront.UI.MVC.Controllers
         // POST: Directors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Director director = db.Directors.Find(id);
@@ -136,6 +142,7 @@ namespace StoreFront.UI.MVC.Controllers
         #region AJAX CRUD
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxCreate(Director director)
         {
             db.Directors.Add(director);
@@ -144,6 +151,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public PartialViewResult DirectorEdit(int id)
         {
             Director director = db.Directors.Find(id);
@@ -152,6 +160,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxEdit(Director director)
         {
             db.Entry(director).State = EntityState.Modified;
@@ -160,6 +169,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxDelete(int id)
         {
             Director director = db.Directors.Find(id);

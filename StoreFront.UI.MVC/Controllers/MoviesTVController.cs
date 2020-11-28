@@ -63,21 +63,8 @@ namespace StoreFront.UI.MVC.Controllers
             #endregion
 
             #region Filters
-            var discFormats = db.DiscTypes.ToList();
-            List<DiscType> formats = new List<DiscType>();
-            foreach (var df in discFormats)
-            {
-                formats.Add(df);
-            }
-            ViewBag.Formats = formats;
-
-            var movieGenres = db.Genres.ToList();
-            List<Genre> genres = new List<Genre>();
-            foreach (var mg in movieGenres)
-            {
-                genres.Add(mg);
-            }
-            ViewBag.Genres = genres;
+            ViewBag.Formats = db.DiscTypes.ToList();
+            ViewBag.Genres = db.Genres.ToList();
             #endregion
 
             #region Dropdown List for Page Size
@@ -182,6 +169,10 @@ namespace StoreFront.UI.MVC.Controllers
                 }
             }
             ViewBag.WrittenBy = writtenBy;
+            #endregion
+
+            #region Related Products
+            ViewBag.RelatedMoviesTVs = db.MoviesTVs.ToList();
             #endregion
 
             return View(moviesTV);

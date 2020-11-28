@@ -54,6 +54,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Writers/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -64,6 +65,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "WriterID,FirstName,LastName,Country")] Writer writer)
         {
             if (ModelState.IsValid)
@@ -77,6 +79,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Writers/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,6 +99,7 @@ namespace StoreFront.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "WriterID,FirstName,LastName,Country")] Writer writer)
         {
             if (ModelState.IsValid)
@@ -108,6 +112,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Writers/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -125,6 +130,7 @@ namespace StoreFront.UI.MVC.Controllers
         // POST: Writers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Writer writer = db.Writers.Find(id);
@@ -136,6 +142,7 @@ namespace StoreFront.UI.MVC.Controllers
         #region AJAX CRUD
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxCreate(Writer writer)
         {
             db.Writers.Add(writer);
@@ -144,6 +151,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public PartialViewResult WriterEdit(int id)
         {
             Writer writer = db.Writers.Find(id);
@@ -152,6 +160,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxEdit(Writer writer)
         {
             db.Entry(writer).State = EntityState.Modified;
@@ -160,6 +169,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize(Roles = "Admin")]
         public JsonResult AjaxDelete(int id)
         {
             Writer writer = db.Writers.Find(id);
