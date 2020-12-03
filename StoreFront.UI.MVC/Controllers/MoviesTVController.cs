@@ -273,8 +273,8 @@ namespace StoreFront.UI.MVC.Controllers
                             #region Resize Image
                             string savePath = Server.MapPath("~/Content/img/MoviesTV/");
                             Image convertedImage = Image.FromStream(titleCover.InputStream);
-                            int maxImageSize = 500;
-                            int maxThumbSize = 100;
+                            int maxImageSize = 650;
+                            int maxThumbSize = 250;
                             ImageUploadUtility.ResizeImage(savePath, file, convertedImage, maxImageSize, maxThumbSize);
                             #endregion
                         }
@@ -348,8 +348,8 @@ namespace StoreFront.UI.MVC.Controllers
                             #region Resize Image
                             string savePath = Server.MapPath("~/Content/img/MoviesTV/");
                             Image convertedImage = Image.FromStream(titleCover.InputStream);
-                            int maxImageSize = 500;
-                            int maxThumbSize = 100;
+                            int maxImageSize = 650;
+                            int maxThumbSize = 250;
                             ImageUploadUtility.ResizeImage(savePath, file, convertedImage, maxImageSize, maxThumbSize);
                             #endregion
 

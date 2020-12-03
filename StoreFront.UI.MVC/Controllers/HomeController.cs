@@ -12,7 +12,7 @@ namespace StoreFront.UI.MVC.Controllers
     {
         private StoreFrontEntities db = new StoreFrontEntities();
 
-        //[HttpGet]
+        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.NewDVDs = db.MoviesTVs.OrderBy(m => m.ReleaseDate).Where(m => m.DiscTypeID == 1 && m.IsSiteFeature == true).ToList();
