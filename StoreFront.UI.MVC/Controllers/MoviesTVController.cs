@@ -19,9 +19,9 @@ namespace StoreFront.UI.MVC.Controllers
         private StoreFrontEntities db = new StoreFrontEntities();
 
         // GET: MoviesTV
-        public ActionResult Index(string searchString, string currentFilter, string sortOrder, string movieTVSort, int? page, int? PageSize)
+        public ActionResult Index(int? formatId, int? genreId, string searchString, string currentFilter, string sortOrder, string movieTVSort, int? page, int? PageSize)
         {
-            List<MoviesTV> moviesTVs = new List<MoviesTV>();
+            List<MoviesTV> moviesTV = new List<MoviesTV>();
             ViewBag.CurrentSort = sortOrder;
             if (searchString != null)
             {
@@ -45,26 +45,35 @@ namespace StoreFront.UI.MVC.Controllers
             switch (movieTVSort)
             {
                 case "AlphaAZ":
-                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderBy(s => s.Title).ToList();
+                    moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderBy(s => s.Title).ToList();
                     break;
                 case "AlphaZA":
-                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Title).ToList();
+                    moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Title).ToList();
                     break;
                 case "PriceAsc":
-                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderBy(s => s.Price).ToList();
+                    moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderBy(s => s.Price).ToList();
                     break;
                 case "PriceDesc":
-                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Price).ToList();
+                    moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).OrderByDescending(s => s.Price).ToList();
                     break;
                 default:
-                    moviesTVs = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).ToList();
+                    moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).ToList();
                     break;
             }
             #endregion
 
             #region Filters
             ViewBag.Formats = db.DiscTypes.ToList();
+            if (formatId != null)
+            {
+                moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).Where(mtv => mtv.DiscTypeID == formatId).ToList();
+            }
+
             ViewBag.Genres = db.Genres.ToList();
+            if (genreId != null)
+            {
+                moviesTV = db.MoviesTVs.Include(m => m.Genre).Include(m => m.Studio).Include(m => m.TitleStatus).Include(m => m.DiscType).Include(m => m.TitleType).Include(m => m.RegionCode).Include(m => m.MPAARating).Where(mtv => mtv.GenreID == genreId).ToList();
+            }
             #endregion
 
             #region Dropdown List for Page Size
@@ -85,8 +94,8 @@ namespace StoreFront.UI.MVC.Controllers
             #region Search
             if (!String.IsNullOrEmpty(searchString))
             {
-                moviesTVs = (
-                    from m in moviesTVs
+                moviesTV = (
+                    from m in moviesTV
                     where m.Title.ToLower().Contains(searchString.ToLower()) ||
                     m.Description.ToLower().Contains(searchString.ToLower()) ||
                     m.DiscType.DiscTypeName.ToLower().Contains(searchString.ToLower()) ||
@@ -100,11 +109,11 @@ namespace StoreFront.UI.MVC.Controllers
             }
             #endregion
 
-            return View(moviesTVs.ToPagedList(pageNumber, pageSize));
+            return View(moviesTV.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: MoviesTV/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? formatId)
         {
             if (id == null)
             {

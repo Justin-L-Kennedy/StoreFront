@@ -146,31 +146,31 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Format</a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("DVD", "Index", "MoviesTV", new { searchString = "DVD" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Blu-ray", "Index", "MoviesTV", new { searchString = "Blu-ray" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("4K Ultra HD", "Index", "MoviesTV", new { searchString = "4K Ultra HD" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("DVD", "Index", "MoviesTV", new { formatId = 1 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Blu-ray", "Index", "MoviesTV", new { formatId = 2 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("4K Ultra HD", "Index", "MoviesTV", new { formatId = 3 }, new { @class = "dropdown-item" })</li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Genre</a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Action & Adventure", "Index", "MoviesTV", new { searchString = "Action & Adventure" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Animation", "Index", "MoviesTV", new { searchString = "Animation" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Anime", "Index", "MoviesTV", new { searchString = "Anime" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Comedy", "Index", "MoviesTV", new { searchString = "Comedy" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Crime", "Index", "MoviesTV", new { searchString = "Crime" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Documentary", "Index", "MoviesTV", new { searchString = "Documentary" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Drama", "Index", "MoviesTV", new { searchString = "Drama" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Fantasy", "Index", "MoviesTV", new { searchString = "Fantasy" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Foreign Language", "Index", "MoviesTV", new { searchString = "Foreign Language" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Horror", "Index", "MoviesTV", new { searchString = "Horror" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Kids & Family", "Index", "MoviesTV", new { searchString = "Kids &amp; Family" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Musicals & Concerts", "Index", "MoviesTV", new { searchString = "Musicals & Concerts" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Romance", "Index", "MoviesTV", new { searchString = "Romance" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Science Fiction", "Index", "MoviesTV", new { searchString = "Science Fiction" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Sports", "Index", "MoviesTV", new { searchString = "Sports" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Thriller", "Index", "MoviesTV", new { searchString = "Thriller" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("Western", "Index", "MoviesTV", new { searchString = "Western" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Action & Adventure", "Index", "MoviesTV", new { genreId = 1 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Animation", "Index", "MoviesTV", new { genreId = 2 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Anime", "Index", "MoviesTV", new { genreId = 3 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Comedy", "Index", "MoviesTV", new { genreId = 4 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Crime", "Index", "MoviesTV", new { genreId = 5 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Documentary", "Index", "MoviesTV", new { genreId = 6 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Drama", "Index", "MoviesTV", new { genreId = 7 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Fantasy", "Index", "MoviesTV", new { genreId = 8 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Foreign Language", "Index", "MoviesTV", new { genreId = 9 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Horror", "Index", "MoviesTV", new { genreId = 10 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Kids & Family", "Index", "MoviesTV", new { genreId = 11 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Musicals & Concerts", "Index", "MoviesTV", new { genreId = 12 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Romance", "Index", "MoviesTV", new { genreId = 13 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Science Fiction", "Index", "MoviesTV", new { genreId = 14 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Sports", "Index", "MoviesTV", new { genreId = 15 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Thriller", "Index", "MoviesTV", new { genreId = 16 }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("Western", "Index", "MoviesTV", new { genreId = 17 }, new { @class = "dropdown-item" })</li>
                         </ul>
                     </li>
                     <li class="nav-item">@Html.ActionLink("About Us", "About", "Home")</li>
@@ -244,9 +244,9 @@
                             <ul class="footer-links">
                                 <li>@Html.ActionLink("Movies", "Index", "MoviesTV", new { searchString = "Movie" }, null)</li>
                                 <li>@Html.ActionLink("Television Shows", "Index", "MoviesTV", new { searchString = "Television Show" }, null)</li>
-                                <li>@Html.ActionLink("DVD", "Index", "MoviesTV", new { searchString = "DVD" }, null)</li>
-                                <li>@Html.ActionLink("Blu-ray", "Index", "MoviesTV", new { searchString = "Blu-ray" }, null)</li>
-                                <li>@Html.ActionLink("4K Ultra HD", "Index", "MoviesTV", new { searchString = "4K Ultra HD" }, null)</li>
+                                <li>@Html.ActionLink("DVD", "Index", "MoviesTV", new { formatId = 1 }, null)</li>
+                                <li>@Html.ActionLink("Blu-ray", "Index", "MoviesTV", new { formatId = 2 }, null)</li>
+                                <li>@Html.ActionLink("4K Ultra HD", "Index", "MoviesTV", new { formatId = 3 }, null)</li>
                             </ul>
                         </div>
                     </div>

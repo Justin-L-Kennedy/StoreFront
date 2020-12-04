@@ -13,8 +13,8 @@
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Movies/TV", "Index", "MoviesTV")</li>
-                    <li>@Html.DisplayFor(model => model.DiscType.DiscTypeDescription)</li>
+                    <li>@Html.ActionLink("Movies/TV", "Index")</li>
+                    <li>@Html.ActionLink(Model.DiscType.DiscTypeDescription, "Index", new { formatId = Model.DiscTypeID })</li>
                     <li class="active">@ViewBag.Title</li>
                 </ul>
             </div>
@@ -113,8 +113,8 @@
                     </ul>*@
                     <ul class="product-links">
                         <li>Category:</li>
-                        <li><a href="#">@Html.DisplayFor(model => model.DiscType.DiscTypeDescription)</a></li>
-                        <li><a href="#">@Html.DisplayFor(model => model.Genre.GenreName)</a></li>
+                        <li>@Html.ActionLink(Model.DiscType.DiscTypeDescription, "Index", new { formatId = Model.DiscTypeID })</li>
+                        <li>@Html.ActionLink(Model.Genre.GenreName, "Index", new { genreId = Model.GenreID })</li>
                         <li><a href="#">@Html.DisplayFor(model => model.TitleType.TitleTypeName)</a></li>
                     </ul>
                     <ul class="product-links">
