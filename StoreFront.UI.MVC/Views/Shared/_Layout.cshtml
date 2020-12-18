@@ -8,6 +8,13 @@
 
     <title>@ViewBag.Title | Justin's Reel House</title>
 
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">
+    <link href="~/Content/img/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon" type="image/png" sizes="180x180">
+    <link href="~/Content/img/android-chrome-192x192.png" rel="icon" type="image/png" sizes="192x192">
+    <link href="~/Content/img/android-chrome-512x512.png" rel="icon" type="image/png" sizes="512x512">
+
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -86,7 +93,7 @@
                                     <option value="2">Category 02</option>
                                 </select>
                                 @Html.TextBox("SearchString", ViewBag.SearchString as string, new { @class = "input", @placeholder = "Search here" })
-                                <input type="submit" class="search-btn" value="Search" />
+                                <button type="submit" class="search-btn">Search</button>
                             </form>
                             }
                         </div>

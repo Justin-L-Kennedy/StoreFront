@@ -21,6 +21,7 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: MoviesTV
         public ActionResult Index(int? formatId, int? genreId, string searchString, string currentFilter, string sortOrder, string movieTVSort, int? page, int? PageSize)
         {
+            //Session["filterState"] = new { formatId, genreId, searchString, currentFilter, sortOrder};
             List<MoviesTV> moviesTV = new List<MoviesTV>();
             ViewBag.CurrentSort = sortOrder;
             if (searchString != null)

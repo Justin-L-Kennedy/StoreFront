@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Shopping Cart";
+    ViewBag.Message = "There are no items in your cart.";
 
     //add a couple of local variables for calculations later on in the page
     decimal? cartTotal = 0;
@@ -12,11 +13,11 @@
     <div class="qty">@totalCountOfItems</div>
 </a>
 
-@if ((Dictionary<int, StoreFront.UI.MVC.Models.CartItemViewModel>)Session["cart"] == null)
+@if (Session["cart"] == null)
 {
     <div class="cart-dropdown">
-        <div class="cart-list">
-            
+        <div class="alert alert-danger text-center">
+            @ViewBag.Message
         </div>
         <div class="cart-summary">
             <small>@totalCountOfItems item@(totalCountOfItems == 1 ? "" : "s") in your cart.</small>
@@ -36,7 +37,9 @@ else
             {
                 <div class="product-widget">
                     <div class="product-img">
-                        <img src="~/Content/img/MoviesTV/t_@item.Value.Product.TitleImage" alt="Movie Cover" title="@item.Value.Product.Title" />
+                        <a href="@Url.Action("Details", "MoviesTV", new { id = item.Value.Product.MovieTVID })">
+                            <img src="~/Content/img/MoviesTV/t_@item.Value.Product.TitleImage" alt="Movie Cover" title="@item.Value.Product.Title" />
+                        </a>
                     </div>
                     <div class="product-body">
                         <h3 class="product-name"><a href="@Url.Action("Details", "MoviesTV", new { id = item.Value.Product.MovieTVID })">@item.Value.Product.Title</a></h3>

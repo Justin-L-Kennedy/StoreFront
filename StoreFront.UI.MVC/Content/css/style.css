@@ -94,7 +94,7 @@ ul, ol {
   display: inline-block;
   padding: 12px 30px;
   background-color: #D10024;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 40px;
   color: #FFF;
   text-transform: uppercase;
@@ -105,8 +105,9 @@ ul, ol {
 }
 
 .primary-btn:hover, .primary-btn:focus {
-  opacity: 0.9;
-  color: #FFF;
+  background-color: #FFF;
+  border-color: #D10024;
+  color: #D10024;
 }
 
 /*----------------------------*\
@@ -494,8 +495,14 @@ textarea.input {
   background: #D10024;
   color: #FFF;
   font-weight: 700;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 0px 40px 40px 0px;
+}
+
+.header-search form .search-btn:hover {
+    background-color: #FFF;
+    border-color: #D10024;
+    color: #D10024;
 }
 
 /*----------------------------*\
@@ -569,6 +576,7 @@ textarea.input {
 }
 
 .cart-dropdown .cart-list {
+  min-height: 80px;
   max-height: 180px;
   overflow-y: scroll;
   margin-bottom: 15px;
@@ -602,6 +610,7 @@ textarea.input {
   width: calc(50% - 0px);
   padding: 12px;
   background-color: #D10024;
+  border: 2px solid transparent;
   color: #FFF;
   text-align: center;
   font-weight: 700;
@@ -615,7 +624,15 @@ textarea.input {
 }
 
 .cart-dropdown .cart-btns>a:hover {
-  opacity: 0.9;
+  background-color: #FFF;
+  border-color: #D10024;
+  color: #D10024;
+}
+
+.cart-dropdown .cart-btns>a:first-child:hover {
+    background-color: #FFF;
+    border-color: #1e1f29;
+    color: #1e1f29;
 }
 
 .cart-dropdown .cart-summary {
@@ -1997,8 +2014,14 @@ textarea.input {
   font-weight: 700;
   background: #D10024;
   color: #FFF;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 0px 40px 40px 0px;
+}
+
+.newsletter form .newsletter-btn:hover {
+    background-color: #FFF;
+    border-color: #D10024;
+    color: #D10024;
 }
 
 .newsletter .newsletter-follow {
